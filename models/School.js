@@ -2,17 +2,30 @@ import mongoose from "mongoose";
 
 const { Schema } = mongoose;
 
-const schoolSchema = new Schema({
-  schoolName: String,
-  address: String,
-  email: String,
-  noOfStudents: Number,
-  address: String,
-  phone: String,
-  document: String,
-  quantities: String,
-  type: String,
-});
+const schoolSchema = new Schema(
+  {
+    name: { type: String, required: true },
+    email: { type: String, required: true, unique: true },
+    phone: { type: String, required: true },
+    password: { type: String, required: true, min: 8, max: 12 },
+    address: { type: String, required: true },
+    moneyReceived: { type: Number, default: 0 },
+    requestReceived: { type: Number, default: 0 },
+    noOfStudents: Number,
+    document: String,
+    quantities: String,
+    type: ["public", "private", "community school"],
+    location: ["state", "local government area"],
+    isVerified: { type: Boolean, default: false },
+    isDeleted: { type: Boolean, default: false },
+    role: {
+      type: String,
+      default: "student",
+      enum: ["donor", "student", "sponsor", "admin", "school", "volunteer"],
+    },
+  },
+  { timestamps: true }
+);
 // save updated info
 // request resource
 // save quantities, resource type

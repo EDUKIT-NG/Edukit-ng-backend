@@ -2,9 +2,14 @@ import mongoose from "mongoose";
 
 const { Schema } = mongoose;
 
-const otpSchema = new Schema({
-  otp: Number,
-});
+const otpSchema = new Schema(
+  {
+    user: { type: Schema.Types.ObjectId, required: true, ref: "Student" },
+    otp: { type: String, required: true },
+    expiresAt: { type: Date, required: true },
+  },
+  { timestamps: true }
+);
 // expires after 120sec
 // generate otp after clicking submit button on sign up
 // resend otp when the other one has expired
