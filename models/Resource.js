@@ -3,17 +3,17 @@ import mongoose from "mongoose";
 const { Schema } = mongoose;
 
 const resourceSchema = new Schema({
-  total: { type: Number, required: true },
-  status: { type: Number, enum: ["delivered", "shipped"] },
-  category: {
+  totalResources: { type: Number, required: true },
+  resourceStatus: { type: Number, enum: ["delivered", "shipped"] },
+  resourceCategory: {
     type: String,
     enum: ["books", "uniform", "learning resources"],
   },
   quantities: { type: Number },
-  description: { type: String },
-  condition: { type: String },
-  delivery: { type: String, enum: ["pickup", "ship"] },
-  address: { type: String, required: true },
+  resourceDescription: { type: String },
+  resourceCondition: { type: String },
+  deliveryOptions: { type: String, enum: ["pickup", "ship"] },
+  deliveryAddress: { type: String, required: true },
 });
 // admin will view resources, transactions, users
 // save updated admin database

@@ -6,6 +6,7 @@ const donarSchema = new Schema(
   {
     name: { type: String, required: true },
     email: { type: String, required: true, unique: true },
+    phone: {type: String, required: true},
     password: { type: String, required: true, min: 8, max: 12 },
     description: { type: String },
     address: { type: String, required: true },

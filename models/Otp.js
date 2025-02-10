@@ -4,7 +4,14 @@ const { Schema } = mongoose;
 
 const otpSchema = new Schema(
   {
-    user: { type: Schema.Types.ObjectId, required: true, ref: "Student" },
+    user: {
+      id: { type: Schema.Types.ObjectId, required: true, refPath: "userType" },
+      userType: {
+        type: String,
+        required: true,
+        enum: ["Student", "Donor", "Volunteer", "School"],
+      },
+    },
     otp: { type: String, required: true },
     expiresAt: { type: Date, required: true },
   },

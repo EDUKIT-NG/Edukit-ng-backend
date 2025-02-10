@@ -4,6 +4,7 @@ const { Schema } = mongoose;
 
 const schoolSchema = new Schema(
   {
+    schoolName: { type: String, required: true },
     name: { type: String, required: true },
     email: { type: String, required: true, unique: true },
     phone: { type: String, required: true },
@@ -11,11 +12,11 @@ const schoolSchema = new Schema(
     address: { type: String, required: true },
     moneyReceived: { type: Number, default: 0 },
     requestReceived: { type: Number, default: 0 },
-    noOfStudents: Number,
+    noOfStudents: { type: Number, default: 0 },
     document: String,
-    quantities: String,
-    type: ["public", "private", "community school"],
-    location: ["state", "local government area"],
+    quantities: { type: Number, required: true },
+    type: { type: String, enum: ["public", "private", "community school"] },
+    location: { type: String, enum: ["state", "local government area"] },
     isVerified: { type: Boolean, default: false },
     isDeleted: { type: Boolean, default: false },
     role: {

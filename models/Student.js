@@ -6,8 +6,8 @@ const studentSchema = new Schema(
   {
     name: { type: String, required: true },
     email: { type: String, required: true, unique: true },
-    phone: { type: String, required: true },
-    password: { type: Number, required: true, min: 8, max: 12 },
+    phone: { type: String, required: true, unique: true },
+    password: { type: String, required: true, min: 8, max: 12 },
     age: { type: Number, required: true },
     gender: { type: String, required: true },
     address: { type: String, required: true },
@@ -22,7 +22,7 @@ const studentSchema = new Schema(
     moneyReceived: { type: Number, default: 0 },
     requestReceived: { type: Number, default: 0 },
     isVerified: { type: Boolean, default: false },
-    isDeleted: { type: String, default: false },
+    isDeleted: { type: Boolean, default: false },
     role: {
       type: String,
       default: "student",
