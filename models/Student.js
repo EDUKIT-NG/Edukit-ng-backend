@@ -9,6 +9,7 @@ const studentSchema = new Schema(
     phone: { type: String, required: true, unique: true },
     grade: { type: String, required: true },
     password: { type: String, required: true, min: 8, max: 12 },
+    additionalInfo: { type: Object, default: {} },
     // age: { type: Number, required: true },
     // gender: { type: String, required: true },
     // address: { type: String, required: true },
