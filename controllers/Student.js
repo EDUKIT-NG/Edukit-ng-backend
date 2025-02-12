@@ -1,12 +1,14 @@
 import Student from "../models/Student.js";
 import bcrypt from "bcrypt";
+import { sanitizeUser } from "../utils/SanitizeUser.js";
+import { generateToken } from "../utils/GenerateToken.js";
 
 // creates a new account
 export const register = async (req, res) => {
   try {
     const { name, email, phone, password, grade } = req.body;
 
-    // check if your exist or not
+    // check if student exist or not
     const existingStudent = await Student.findOne({ email });
 
     // if student already exists
@@ -21,21 +23,41 @@ export const register = async (req, res) => {
     req.body.password = hashedPassword;
 
     // creating new student
-    const student = new Student({
+    const createdStudent = new Student({
       name,
       email,
       phone,
       password: hashedPassword,
       grade,
     });
-    await student.save();
+    await createdStudent.save();
 
-    res.status(201).json({
-      message:
-        "Thank you for registering with us. Your account has been successfully created.",
+    // gets secure student additionalInfo
+    const secureInfo = sanitizeUser(createdStudent);
+
+    // generates JWT token
+    const token = generateToken(secureInfo);
+
+    // checks is COOKIE_EXPIRATION_DAYS defined if is a Number
+    const cookieExpirationDays = parseInt(process.env.COOKIE_EXPIRATION_DAYS);
+    if (isNaN(cookieExpirationDays)) {
+      throw new Error("COOKIE_EXPIRATiON_DAYS must be a valid number.");
+    }
+
+    // sends JWT token in the response cookies
+    res.cookie("token", token, {
+      sameSite: process.env.PRODUCTION === "true" ? "None" : "Lax",
+      maxAge: cookieExpirationDays * 24 * 60 * 60 * 1000,
+      httpOnly: true,
+      secure: process.env.PRODUCTION === "true",
     });
+
+    res.status(201).json(sanitizeUser(createdStudent));
   } catch (error) {
-    res.status(500).json({ "Error ": error, message: "Internal server error" });
+    res.status(500).json({
+      "Error ": error,
+      message: "Error occurred during account creation, please try again.",
+    });
   }
 };
 
@@ -44,16 +66,35 @@ export const login = async (req, res) => {
   try {
     const { email, password } = req.body;
 
+    // checks if student exits
     const existingStudent = await Student.findOne({ email });
 
-    // if the user exists and password matched the hash password
+    // if the student exists and password matched the hash password
     if (
       existingStudent &&
       (await bcrypt.compare(password, existingStudent.password))
     ) {
-      return res.status(200).json({ message: " Login Successful." });
+      // get secure user info
+      const secureInfo = sanitizeUser(existingStudent);
+
+      // checks is COOKIE_EXPIRATION_DAYS defined if is a Number
+      const cookieExpirationDays = parseInt(process.env.COOKIE_EXPIRATION_DAYS);
+      if (isNaN(cookieExpirationDays)) {
+        throw new Error("COOKIE_EXPIRATiON_DAYS must be a valid number.");
+      }
+
+      // sends JWT token in the response cookies
+      res.cookie("token", token, {
+        sameSite: process.env.PRODUCTION === "true" ? "None" : "Lax",
+        maxAge: cookieExpirationDays * 24 * 60 * 60 * 1000,
+        httpOnly: true,
+        secure: process.env.PRODUCTION === "true",
+      });
+
+      return res.status(200).json(sanitizeUser);
     }
 
+    res.clearCookie("token");
     return res.status(404).json({ message: "Invalid Credentials." });
   } catch (error) {
     res
