@@ -10,11 +10,18 @@ const studentSchema = new Schema(
     grade: { type: String, required: true },
     password: { type: String, required: true, min: 8, max: 12 },
     additionalInfo: { type: Object, default: {} },
+    role: {
+      type: String,
+      default: "student",
+      enum: ["student", "volunteer", "donor", "school", "admin", "sponsor"],
+    },
+    isVerified: { type: Boolean, default: false },
+    isDeleted: { type: Boolean, default: false },
+
     // age: { type: Number, required: true },
     // gender: { type: String, required: true },
     // address: { type: String, required: true },
     // schoolName: { type: Schema.Types.ObjectId, required: true, ref: "School" },
-
     // schoolType: { type: Schema.Types.ObjectId, required: true, ref: "School" },
     // schoolLocation: {
     //   type: Schema.Types.ObjectId,
@@ -23,13 +30,6 @@ const studentSchema = new Schema(
     // },
     // moneyReceived: { type: Number, default: 0 },
     // requestReceived: { type: Number, default: 0 },
-    // isVerified: { type: Boolean, default: false },
-    // isDeleted: { type: Boolean, default: false },
-    // role: {
-    //   type: String,
-    //   default: "student",
-    //   enum: ["student", "volunteer", "donor", "school", "admin", "sponsor"],
-    // },
     // schoolContact: String,
     // parentOccupation: String,
     // noOfSiblings: Number,

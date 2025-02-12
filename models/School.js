@@ -21,7 +21,7 @@ const schoolSchema = new Schema(
     isDeleted: { type: Boolean, default: false },
     role: {
       type: String,
-      default: "student",
+      default: "school",
       enum: ["donor", "student", "sponsor", "admin", "school", "volunteer"],
     },
   },

@@ -23,7 +23,7 @@ const donarSchema = new Schema(
     isDeleted: { type: Boolean, default: false },
     role: {
       type: String,
-      default: "student",
+      default: "donor",
       enum: ["donor", "sponsor", "student", "admin", "school", "volunteer"],
     },
   },

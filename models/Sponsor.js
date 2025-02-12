@@ -12,7 +12,7 @@ const sponsorSchema = new Schema(
     isDeleted: { type: Boolean, default: false },
     role: {
       type: String,
-      default: "student",
+      default: "sponsor",
       enum: ["student", "donor", "sponsor", "school", "admin", "volunteer"],
     },
   },
