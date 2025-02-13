@@ -30,6 +30,7 @@ npm install
 
 This file should contain:
 
+```env
 PORT=5000
 MONGO_URI=your-mongodb-atlas-connection-string
 ORIGIN=http://localhost:3000
@@ -41,6 +42,7 @@ COOKIE_EXPIRATION_DAYS=7
 EMAIL=youremail@gmail.com
 PASSWORD=your-email-password
 OTP_EXPIRATION_TIME=120000
+```
 
 ## Start the Server
 
