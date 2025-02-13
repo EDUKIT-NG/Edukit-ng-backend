@@ -7,7 +7,6 @@ import {
   getSingleStudent,
   updateStudent,
   logout,
-  checkAuth,
   verifyOtp,
   resendOtp,
   forgotPassword,
@@ -24,7 +23,6 @@ router
   .post("/resend-otp", resendOtp)
   .post("/forgot-password", forgotPassword)
   .post("/reset-password", resetPassword)
-  .get("/check-auth", verifyToken, checkAuth)
   .post("/logout", logout)
   .delete("/delete/:id", deleteStudent)
   .get("/", getAllStudents)

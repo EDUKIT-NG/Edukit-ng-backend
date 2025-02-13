@@ -419,20 +419,3 @@ export const deleteStudent = async (req, res) => {
     });
   }
 };
-
-export const checkAuth = async (req, res) => {
-  try {
-    if (req.student) {
-      const student = await Student.findById(req.student._id);
-
-      // checks if the student exists
-      if (!student) {
-        return res.status(404).json({ message: "Student not found." });
-      }
-
-      return res.status(200).json(sanitizeUser(student));
-    }
-  } catch (error) {
-    res.sendStatus(500);
-  }
-};
