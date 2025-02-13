@@ -2,8 +2,11 @@ import Student from "../models/Student.js";
 import bcrypt from "bcrypt";
 import { sanitizeUser } from "../utils/SanitizeUser.js";
 import { generateToken } from "../utils/GenerateToken.js";
+import Otp from "../models/Otp.js";
+import { generateOtp } from "../utils/GenerateOtp.js";
+import PasswordResetToken from "../models/PasswordResetToken.js";
+import { sendMail } from "../utils/Email.js";
 
-// creates a new account
 export const register = async (req, res) => {
   try {
     const { name, email, phone, password, grade } = req.body;
@@ -61,7 +64,6 @@ export const register = async (req, res) => {
   }
 };
 
-// logs in to a created account
 export const login = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -77,6 +79,9 @@ export const login = async (req, res) => {
       // get secure user info
       const secureInfo = sanitizeUser(existingStudent);
 
+      // generates JWT token
+      const token = generateToken(secureInfo);
+
       // checks is COOKIE_EXPIRATION_DAYS defined if is a Number
       const cookieExpirationDays = parseInt(process.env.COOKIE_EXPIRATION_DAYS);
       if (isNaN(cookieExpirationDays)) {
@@ -91,7 +96,7 @@ export const login = async (req, res) => {
         secure: process.env.PRODUCTION === "true",
       });
 
-      return res.status(200).json(sanitizeUser);
+      return res.status(200).json(sanitizeUser(existingStudent));
     }
 
     res.clearCookie("token");
@@ -103,23 +108,14 @@ export const login = async (req, res) => {
   }
 };
 
-// updates the student profile
 export const updateStudent = async (req, res) => {
   try {
-    const studentId = req.params.id;
-    const { name, email, phone, grade, additionalInfo } = req.body;
+    const { id } = req.params;
 
-    const updatedStudent = await Student.findByIdAndUpdate(
-      studentId,
-      {
-        name,
-        email,
-        phone,
-        grade,
-        additionalInfo,
-      },
-      { new: true, runValidators: true }
-    );
+    const updatedStudent = await Student.findByIdAndUpdate(id, req.body, {
+      new: true,
+    }).toObject();
+    delete updatedStudent.password;
     await updatedStudent.save();
 
     if (!updatedStudent) {
@@ -135,19 +131,19 @@ export const updateStudent = async (req, res) => {
   }
 };
 
-// get a specific student
 export const getSingleStudent = async (req, res) => {
   try {
-    const studentId = req.params.id;
+    const { id } = req.params;
 
-    const student = await Student.findById(studentId);
+    const student = await Student.findById(id);
+    delete student.password;
+
     res.status(200).json(student);
   } catch (error) {
     res.status(500).json({ message: "Error retrieving the student." });
   }
 };
 
-// gets all students
 export const getAllStudents = async (req, res) => {
   try {
     const students = await Student.find();
@@ -157,7 +153,221 @@ export const getAllStudents = async (req, res) => {
   }
 };
 
-// deletes and existing account of a specific user
+export const verifyOtp = async (req, res) => {
+  try {
+    const { studentId, otp } = req.body;
+
+    // checks if student id is existing in the user collection
+    const isValidStudentId = await Student.findById(studentId);
+
+    // returns a 404 response if the student id does not exist
+    if (!isValidStudentId) {
+      return res.status(404).json({
+        message: "Student not found, for which the OTP has been generated.",
+      });
+    }
+
+    // checks if otp exists by the student id
+    const isOtpExisting = await Otp.findOne({ student: isValidStudentId._id });
+
+    // returns 404 if otp does not exists
+    if (!isOtpExisting) {
+      return res.status(404).json({ message: "Otp not found." });
+    }
+
+    // checks if the otp is expired and then deletes the otp
+    if (isOtpExisting.expiresAt < new Date()) {
+      await Otp.findByIdAndDelete(isOtpExisting._id);
+      return res.status(400).json({ message: "Otp has expired." });
+    }
+
+    // checks if otp is there and matches the hash value then updates the student verified status to true and returns the updated user
+    if (isOtpExisting && (await bcrypt.compare(otp, isOtpExisting.otp))) {
+      await Otp.findByIdAndDelete(isOtpExisting._id);
+      const verifiedStudent = await Student.findByIdAndUpdate(
+        isValidStudentId._id,
+        { isVerified: true },
+        { new: true }
+      );
+
+      return res.status(200).json(sanitizeUser(verifiedStudent));
+    }
+
+    return res.status(400).json({ message: "Otp is invalid or expired." });
+  } catch (error) {
+    res.status(500).json({ message: "Internal server error." });
+  }
+};
+
+export const resendOtp = async (req, res) => {
+  try {
+    const { student } = req.body;
+
+    // checks if the student exists by id
+    const existingStudent = await Student.findById(student);
+
+    if (!existingStudent) {
+      return res.status(404).json({ message: "User not found." });
+    }
+
+    await Otp.deleteMany({ student: existingStudent._id });
+
+    const otp = generateOtp();
+    const hashedOtp = await bcrypt.hash(otp, 10);
+
+    const newOtp = new Otp({
+      student,
+      otp: hashedOtp,
+      expiresAt: Date.now() + parseInt(process.env.OTP_EXPIRATION_TIME),
+    });
+    await newOtp.save();
+
+    await sendMail(
+      existingStudent.email,
+      "OTP Verification Code",
+      `Your OTP is: <b>${otp}</b>`
+    );
+
+    res.status(200).json({ message: "OTP Sent" });
+  } catch (error) {
+    res.status(500).json({
+      message: "Error occurred while resending otp, please try again.",
+    });
+  }
+};
+
+export const forgotPassword = async (req, res) => {
+  let newToken;
+
+  try {
+    const { email } = req.body;
+
+    // checks if student provided email exists
+    const isExistingStudent = await Student.findOne({ email });
+
+    // returns a 404 response if the email does not exist
+    if (!isExistingStudent) {
+      return res
+        .status(404)
+        .json({ message: "Provided email does not exists." });
+    }
+
+    await PasswordResetToken.deleteMany({ student: isExistingStudent._id });
+
+    // generates a password reset token if user exists
+    const passwordResetToken = generateToken(
+      sanitizeUser(isExistingStudent),
+      true
+    );
+
+    // hashes the token
+    const hashedToken = await bcrypt.hash(passwordResetToken, 10);
+
+    // saves hashed token in passwordResetToken collection
+    newToken = new PasswordResetToken({
+      student: isExistingStudent._id,
+      token: hashedToken,
+      expiresAt: Date.now() + parseInt(process.env.OTP_EXPIRATION_TIME),
+    });
+
+    await newToken.save();
+
+    // sends password reset link to the user's email
+    await sendMail(
+      isExistingStudent.email,
+      "Password reset link",
+      `<p>Dear ${isExistingStudent.email}, We received a request to reset your password for the account. Please use the following link to reset your password:</p>
+      <p><a href=${process.env.ORIGIN}/reset-password/${isExistingStudent._id}/${passwordResetToken} target='_blank'>Reset Password</a></p>
+      <p>This link is valid for a limited time. If you did not request a password reset, please ignore this email. Your security is important to us.</p>
+      
+      <p>Thank you,</p>
+      <p>EduKit Team</p>`
+    );
+
+    res.status(200).json({
+      message: `Password reset link sent to ${isExistingStudent.email}`,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message:
+        "Error occurred while sending password reset link on your email.",
+    });
+  }
+};
+
+export const resetPassword = async (req, res) => {
+  try {
+    const { studentId, token, password } = req.body;
+
+    // checks if user exists
+    const isExistingStudent = await Student.findById(studentId);
+
+    // returns a 404 response if a user does not exists
+    if (!isExistingStudent) {
+      res.status(404).json({ message: "Student does not exists." });
+    }
+
+    // fetches the resetPassword token by the studentId
+    const isResetTokenExisting = await PasswordResetToken.findOne({
+      student: isExistingStudent._id,
+    });
+
+    // returns a 404 response if the token does not exists
+    if (!isResetTokenExisting) {
+      return res.status(404).json({ message: "Reset link is not valid" });
+    }
+
+    // deletes expired token
+    if (isResetTokenExisting.expiresAt < new Date()) {
+      await PasswordResetToken.findByIdAndDelete(isResetTokenExisting._id);
+      return res.status(404).json({ message: "Reset link has been expired" });
+    }
+
+    // resets the user password and deletes the token if it has not expired and matches the hash
+    if (
+      isResetTokenExisting &&
+      isResetTokenExisting.expiresAt > new Date() &&
+      (await bcrypt.compare(token, isResetTokenExisting.token))
+    ) {
+      // deletes the password reset token
+      await PasswordResetToken.findByIdAndDelete(isResetTokenExisting._id);
+
+      // resets the password after hashing it
+      await Student.findByIdAndUpdate(isExistingStudent._id, {
+        password: await bcrypt.hash(password, 10),
+      });
+
+      return res
+        .status(200)
+        .json({ message: "Password updated successfully." });
+    }
+
+    return res.status(404).json({ message: "Reset link has expired." });
+  } catch (error) {
+    res.status(500).json({
+      message: "Error occurred while resetting the password, please try again.",
+    });
+  }
+};
+
+export const logout = async (req, res) => {
+  try {
+    res.cookie("token", "", {
+      maxAge: 0,
+      sameSite: process.env.PRODUCTION === "true" ? "None" : "Lax",
+      httpOnly: true,
+      secure: process.env.PRODUCTION === "true",
+    });
+
+    res.status(200).json({ message: "Logout successful!" });
+  } catch (error) {
+    res.status(500).json({
+      message:
+        "An error occurred while you are trying to logout, please try again.",
+    });
+  }
+};
+
 export const deleteStudent = async (req, res) => {
   try {
     const studentId = req.params.id;
@@ -173,5 +383,22 @@ export const deleteStudent = async (req, res) => {
     res.status(500).json({
       message: "Error occurred while deleting your account, Please try again.",
     });
+  }
+};
+
+export const checkAuth = async (req, res) => {
+  try {
+    if (req.student) {
+      const student = await Student.findById(req.student._id);
+
+      // checks if the student exists
+      if (!student) {
+        return res.status(404).json({ message: "Student not found." });
+      }
+
+      return res.status(200).json(sanitizeUser(student));
+    }
+  } catch (error) {
+    res.sendStatus(500);
   }
 };
