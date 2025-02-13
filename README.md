@@ -1,5 +1,7 @@
 # Project Setup Instructions
 
+Welcome to the Project! Follow these instructions to set up the development environment
+
 ## Clone the Project
 
 To clone the project, run:
@@ -23,6 +25,22 @@ Run the following command to install the necessary dependencies:
 ```bash
 npm install
 ```
+
+## Create a .env File
+
+This file should contain:
+
+PORT=5000
+MONGO_URI=your-mongodb-atlas-connection-string
+ORIGIN=http://localhost:3000
+SECRET_KEY=your-secret-key
+PASSWORD_RESET_TOKEN_EXPIRATION=2m
+LOGIN_TOKEN_EXPIRATION=7d
+PRODUCTION=false
+COOKIE_EXPIRATION_DAYS=7
+EMAIL=youremail@gmail.com
+PASSWORD=your-email-password
+OTP_EXPIRATION_TIME=120000
 
 ## Start the Server
 
