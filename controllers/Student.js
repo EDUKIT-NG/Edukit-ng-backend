@@ -6,6 +6,7 @@ import Otp from "../models/Otp.js";
 import { generateOtp } from "../utils/GenerateOtp.js";
 import PasswordResetToken from "../models/PasswordResetToken.js";
 import { sendMail } from "../utils/Email.js";
+import mongoose from "mongoose";
 
 export const register = async (req, res) => {
   try {
@@ -35,6 +36,23 @@ export const register = async (req, res) => {
     });
     await createdStudent.save();
 
+    // generates Otp
+    const otp = generateOtp();
+    const hashedOtp = await bcrypt.hash(otp, 10);
+    const newOtp = new Otp({
+      user: { id: createdStudent._id, userType: "Student" },
+      otp: hashedOtp,
+      expiresAt: Date.now() + parseInt(process.env.OTP_EXPIRATION_TIME),
+    });
+    await newOtp.save();
+
+    // send otp to email
+    await sendMail(
+      email,
+      "OTP Verification Code",
+      `Your OTP is: <b>${otp}</b>`
+    );
+
     // gets secure student additionalInfo
     const secureInfo = sanitizeUser(createdStudent);
 
@@ -55,7 +73,10 @@ export const register = async (req, res) => {
       secure: process.env.PRODUCTION === "true",
     });
 
-    res.status(201).json(sanitizeUser(createdStudent));
+    res.status(201).json({
+      message: "Registration successful. Please verify your email.",
+      student: sanitizeUser(createdStudent),
+    });
   } catch (error) {
     res.status(500).json({
       "Error ": error,
@@ -76,6 +97,12 @@ export const login = async (req, res) => {
       existingStudent &&
       (await bcrypt.compare(password, existingStudent.password))
     ) {
+      if (!existingStudent.isVerified) {
+        return res.status(403).json({
+          message:
+            "Email not verified, Please verify your email using the OTP sent to your email.",
+        });
+      }
       // get secure user info
       const secureInfo = sanitizeUser(existingStudent);
 
@@ -114,9 +141,8 @@ export const updateStudent = async (req, res) => {
 
     const updatedStudent = await Student.findByIdAndUpdate(id, req.body, {
       new: true,
-    }).toObject();
-    delete updatedStudent.password;
-    await updatedStudent.save();
+      runValidators: true,
+    });
 
     if (!updatedStudent) {
       return res.status(404).json({ message: "User not found." });
@@ -136,9 +162,8 @@ export const getSingleStudent = async (req, res) => {
     const { id } = req.params;
 
     const student = await Student.findById(id);
-    delete student.password;
 
-    res.status(200).json(student);
+    res.status(200).json(sanitizeUser(student));
   } catch (error) {
     res.status(500).json({ message: "Error retrieving the student." });
   }
@@ -147,6 +172,7 @@ export const getSingleStudent = async (req, res) => {
 export const getAllStudents = async (req, res) => {
   try {
     const students = await Student.find();
+
     res.status(200).json(students);
   } catch (error) {
     res.status(500).json({ message: "Error retrieving students." });
@@ -155,20 +181,24 @@ export const getAllStudents = async (req, res) => {
 
 export const verifyOtp = async (req, res) => {
   try {
-    const { studentId, otp } = req.body;
+    const { id, otp } = req.body;
 
-    // checks if student id is existing in the user collection
-    const isValidStudentId = await Student.findById(studentId);
+    const studentId = new mongoose.Types.ObjectId(id);
+
+    // checks if student id exist
+    const student = await Student.findById(studentId);
 
     // returns a 404 response if the student id does not exist
-    if (!isValidStudentId) {
+    if (!student) {
       return res.status(404).json({
         message: "Student not found, for which the OTP has been generated.",
       });
     }
 
     // checks if otp exists by the student id
-    const isOtpExisting = await Otp.findOne({ student: isValidStudentId._id });
+    const isOtpExisting = await Otp.findOne({
+      user: { id: student._id, userType: "Student" },
+    });
 
     // returns 404 if otp does not exists
     if (!isOtpExisting) {
@@ -185,7 +215,7 @@ export const verifyOtp = async (req, res) => {
     if (isOtpExisting && (await bcrypt.compare(otp, isOtpExisting.otp))) {
       await Otp.findByIdAndDelete(isOtpExisting._id);
       const verifiedStudent = await Student.findByIdAndUpdate(
-        isValidStudentId._id,
+        student._id,
         { isVerified: true },
         { new: true }
       );
@@ -195,7 +225,9 @@ export const verifyOtp = async (req, res) => {
 
     return res.status(400).json({ message: "Otp is invalid or expired." });
   } catch (error) {
-    res.status(500).json({ message: "Internal server error." });
+    res
+      .status(500)
+      .json({ message: "Internal server error.", error: error.message });
   }
 };
 
@@ -216,7 +248,7 @@ export const resendOtp = async (req, res) => {
     const hashedOtp = await bcrypt.hash(otp, 10);
 
     const newOtp = new Otp({
-      student,
+      user: { id: student, userType: "Student" },
       otp: hashedOtp,
       expiresAt: Date.now() + parseInt(process.env.OTP_EXPIRATION_TIME),
     });
@@ -231,6 +263,7 @@ export const resendOtp = async (req, res) => {
     res.status(200).json({ message: "OTP Sent" });
   } catch (error) {
     res.status(500).json({
+      error: error.message,
       message: "Error occurred while resending otp, please try again.",
     });
   }
@@ -265,7 +298,7 @@ export const forgotPassword = async (req, res) => {
 
     // saves hashed token in passwordResetToken collection
     newToken = new PasswordResetToken({
-      student: isExistingStudent._id,
+      user: { id: isExistingStudent._id, userType: "Student" },
       token: hashedToken,
       expiresAt: Date.now() + parseInt(process.env.OTP_EXPIRATION_TIME),
     });
@@ -289,6 +322,7 @@ export const forgotPassword = async (req, res) => {
     });
   } catch (error) {
     res.status(500).json({
+      error: error.message,
       message:
         "Error occurred while sending password reset link on your email.",
     });
@@ -297,10 +331,10 @@ export const forgotPassword = async (req, res) => {
 
 export const resetPassword = async (req, res) => {
   try {
-    const { studentId, token, password } = req.body;
+    const { id, token, password } = req.body;
 
     // checks if user exists
-    const isExistingStudent = await Student.findById(studentId);
+    const isExistingStudent = await Student.findById(id);
 
     // returns a 404 response if a user does not exists
     if (!isExistingStudent) {
@@ -309,7 +343,7 @@ export const resetPassword = async (req, res) => {
 
     // fetches the resetPassword token by the studentId
     const isResetTokenExisting = await PasswordResetToken.findOne({
-      student: isExistingStudent._id,
+      user: { id: isExistingStudent._id, userType: "Student" },
     });
 
     // returns a 404 response if the token does not exists
