@@ -30,7 +30,7 @@ npm install
 
 This file should contain:
 
-```env
+```bash
 PORT=5000
 MONGO_URI=your-mongodb-atlas-connection-string
 ORIGIN=http://localhost:3000
