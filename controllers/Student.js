@@ -10,7 +10,8 @@ import mongoose from "mongoose";
 
 export const register = async (req, res) => {
   try {
-    const { name, email, phone, password, grade } = req.body;
+    const { name, username, email, phone, password, grade, confirmPassword } =
+      req.body;
 
     // check if student exist or not
     const existingStudent = await Student.findOne({ email });
@@ -22,6 +23,32 @@ export const register = async (req, res) => {
       });
     }
 
+    // checks if username already exists
+    const existingUsername = await Student.findOne({ username });
+    if (existingUsername) {
+      return res
+        .status(400)
+        .json({
+          message:
+            "Username already exists, please choose a different username.",
+        });
+    }
+
+    // checks if password and confirmPassword are same
+    if (password !== confirmPassword) {
+      return res.status(400).json({ message: "Passwords do not match" });
+    }
+
+    const passwordRegex =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
+    if (!passwordRegex.test(password)) {
+      return res.status(400).json({
+        message:
+          "Password must be at least 8 characters long, contain at least one uppercase letter, one lowercase letter, one number and one special character.",
+      });
+    }
+
     // hashing the password
     const hashedPassword = await bcrypt.hash(password, 10);
     req.body.password = hashedPassword;
@@ -29,6 +56,7 @@ export const register = async (req, res) => {
     // creating new student
     const createdStudent = new Student({
       name,
+      username,
       email,
       phone,
       password: hashedPassword,
@@ -87,10 +115,12 @@ export const register = async (req, res) => {
 
 export const login = async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { email, username, password } = req.body;
 
     // checks if student exits
-    const existingStudent = await Student.findOne({ email });
+    const existingStudent = await Student.findOne({
+      $or: [{ email }, { username }],
+    });
 
     // if the student exists and password matched the hash password
     if (

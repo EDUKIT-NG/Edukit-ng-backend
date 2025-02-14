@@ -2,6 +2,7 @@ export const sanitizeUser = (user) => {
   const sanitizedUser = {
     _id: user._id,
     name: user.name,
+    username: user.username,
     email: user.email,
     role: user.role,
   };
