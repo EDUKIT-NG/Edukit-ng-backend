@@ -35,6 +35,7 @@ app.use(
   })
 );
 
+// clears the session cookie after 1 hr of inactivity
 app.use((req, res, next) => {
   if (req.session.cookie.expires < Date.now()) {
     req.session.destroy((err) => {
@@ -58,6 +59,10 @@ app.use(
 );
 
 app.use("/students", router);
+
+app.get("/", (req, res) => {
+  res.send("Running");
+});
 
 app.listen(port, () => {
   console.log("Server running on port 5000");

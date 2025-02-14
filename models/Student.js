@@ -5,6 +5,7 @@ const { Schema } = mongoose;
 const studentSchema = new Schema(
   {
     name: { type: String, required: true },
+    username: { type: String, required: true, unique: true },
     email: { type: String, required: true, unique: true },
     phone: { type: String, required: true, unique: true },
     grade: { type: String, required: true },
@@ -47,7 +48,6 @@ const studentSchema = new Schema(
 );
 // save updated students info
 // can view resources, request a resource, join communities, chat
-// validation
 
 const Student = mongoose.model("Student", studentSchema);
 export default Student;
