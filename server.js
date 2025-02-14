@@ -4,6 +4,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 dotenv.config();
 import router from "./routes/Student.js";
+import schoolRouter from "./routes/School.js";
 
 const app = express();
 
@@ -31,6 +32,7 @@ app.use(
 );
 
 app.use("/students", router);
+app.use("/api/school", schoolRouter);
 
 app.listen(port, () => {
   console.log("Server running on port 5000");
