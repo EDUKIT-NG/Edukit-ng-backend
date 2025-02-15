@@ -8,15 +8,13 @@ import PasswordResetToken from "../models/PasswordResetToken.js";
 import { sendMail } from "../utils/Email.js";
 import mongoose from "mongoose";
 
-export const register = async (req, res) => {
+export const registerStudent = async (req, res) => {
   try {
     const { name, username, email, phone, password, grade, confirmPassword } =
       req.body;
 
-    // check if student exist or not
+    // check if student email exist or not
     const existingStudent = await Student.findOne({ email });
-
-    // if student already exists
     if (existingStudent) {
       return res.status(400).json({
         message: "User already exists, please login instead.",
@@ -26,12 +24,9 @@ export const register = async (req, res) => {
     // checks if username already exists
     const existingUsername = await Student.findOne({ username });
     if (existingUsername) {
-      return res
-        .status(400)
-        .json({
-          message:
-            "Username already exists, please choose a different username.",
-        });
+      return res.status(400).json({
+        message: "Username already exists, please choose a different username.",
+      });
     }
 
     // checks if password and confirmPassword are same
@@ -39,9 +34,9 @@ export const register = async (req, res) => {
       return res.status(400).json({ message: "Passwords do not match" });
     }
 
+    // checks if password matches the regex pattern
     const passwordRegex =
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-
     if (!passwordRegex.test(password)) {
       return res.status(400).json({
         message:
@@ -51,24 +46,23 @@ export const register = async (req, res) => {
 
     // hashing the password
     const hashedPassword = await bcrypt.hash(password, 10);
-    req.body.password = hashedPassword;
 
     // creating new student
-    const createdStudent = new Student({
+    const createStudent = new Student({
       name,
       username,
       email,
       phone,
-      password: hashedPassword,
       grade,
+      password: hashedPassword,
     });
-    await createdStudent.save();
+    await createStudent.save();
 
     // generates Otp
     const otp = generateOtp();
     const hashedOtp = await bcrypt.hash(otp, 10);
     const newOtp = new Otp({
-      user: { id: createdStudent._id, userType: "Student" },
+      user: { id: createStudent._id, userType: "Student" },
       otp: hashedOtp,
       expiresAt: Date.now() + parseInt(process.env.OTP_EXPIRATION_TIME),
     });
@@ -81,13 +75,13 @@ export const register = async (req, res) => {
       `Your OTP is: <b>${otp}</b>`
     );
 
-    // gets secure student additionalInfo
-    const secureInfo = sanitizeUser(createdStudent);
+    // gets secure student info
+    const secureInfo = sanitizeUser(createStudent);
 
     // generates JWT token
     const token = generateToken(secureInfo);
 
-    // checks is COOKIE_EXPIRATION_DAYS defined if is a Number
+    // checks if COOKIE_EXPIRATION_DAYS defined if is a Number
     const cookieExpirationDays = parseInt(process.env.COOKIE_EXPIRATION_DAYS);
     if (isNaN(cookieExpirationDays)) {
       throw new Error("COOKIE_EXPIRATiON_DAYS must be a valid number.");
@@ -102,8 +96,9 @@ export const register = async (req, res) => {
     });
 
     res.status(201).json({
-      message: "Registration successful. Please verify your email.",
-      student: sanitizeUser(createdStudent),
+      message:
+        "Registration successful. OTP sent to your email. Please enter to verify your email.",
+      student: sanitizeUser(createStudent),
     });
   } catch (error) {
     res.status(500).json({
@@ -113,7 +108,7 @@ export const register = async (req, res) => {
   }
 };
 
-export const login = async (req, res) => {
+export const loginStudent = async (req, res) => {
   try {
     const { email, username, password } = req.body;
 
@@ -153,11 +148,13 @@ export const login = async (req, res) => {
         secure: process.env.PRODUCTION === "true",
       });
 
-      return res.status(200).json(sanitizeUser(existingStudent));
+      return res.status(200).json({
+        message: "Login successful!",
+        student: sanitizeUser(existingStudent),
+      });
     }
 
-    res.clearCookie("token");
-    return res.status(404).json({ message: "Invalid Credentials." });
+    return res.status(401).json({ message: "Invalid login credentials." });
   } catch (error) {
     res
       .status(500)
@@ -250,7 +247,10 @@ export const verifyOtp = async (req, res) => {
         { new: true }
       );
 
-      return res.status(200).json(sanitizeUser(verifiedStudent));
+      return res.status(200).json({
+        message: "Email verified:",
+        student: sanitizeUser(verifiedStudent),
+      });
     }
 
     return res.status(400).json({ message: "Otp is invalid or expired." });

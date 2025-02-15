@@ -2,9 +2,10 @@ import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
 import session from "express-session";
+import morgan from "morgan";
 import dotenv from "dotenv";
 dotenv.config();
-import router from "./routes/Student.js";
+import studentRouter from "./routes/Student.js";
 
 const app = express();
 
@@ -23,6 +24,7 @@ mongoose
 
 // middleware
 app.use(express.json());
+app.use(morgan('dev'));
 
 app.use(
   session({
@@ -58,7 +60,7 @@ app.use(
   })
 );
 
-app.use("/students", router);
+app.use("/students", studentRouter);
 
 app.get("/", (req, res) => {
   res.send("Running");
