@@ -9,9 +9,9 @@ import {
   resendOtp,
   forgotPassword,
   resetPassword,
-  registerStudent,
   loginStudent,
-} from "../controllers/Student.js";
+  registerStudent,
+} from "../controllers/studentAuth/Student.js";
 
 const router = express.Router();
 

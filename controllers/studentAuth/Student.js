@@ -1,11 +1,11 @@
-import Student from "../models/Student.js";
+import Student from "../../models/Student.js";
 import bcrypt from "bcrypt";
-import { sanitizeUser } from "../utils/SanitizeUser.js";
-import { generateToken } from "../utils/GenerateToken.js";
-import Otp from "../models/Otp.js";
-import { generateOtp } from "../utils/GenerateOtp.js";
-import PasswordResetToken from "../models/PasswordResetToken.js";
-import { sendMail } from "../utils/Email.js";
+import { sanitizeUser } from "../../utils/SanitizeUser.js";
+import { generateToken } from "../../utils/GenerateToken.js";
+import Otp from "../../models/Otp.js";
+import { generateOtp } from "../../utils/GenerateOtp.js";
+import PasswordResetToken from "../../models/PasswordResetToken.js";
+import { sendMail } from "../../utils/Email.js";
 import mongoose from "mongoose";
 
 export const registerStudent = async (req, res) => {
@@ -102,8 +102,8 @@ export const registerStudent = async (req, res) => {
     });
   } catch (error) {
     res.status(500).json({
-      "Error ": error,
       message: "Error occurred during account creation, please try again.",
+      "Error ": error,
     });
   }
 };
@@ -156,9 +156,10 @@ export const loginStudent = async (req, res) => {
 
     return res.status(401).json({ message: "Invalid login credentials." });
   } catch (error) {
-    res
-      .status(500)
-      .json({ message: "Error occurred while logging in, please try again." });
+    res.status(500).json({
+      message: "Error occurred while logging in, please try again.",
+      "Error ": error,
+    });
   }
 };
 
@@ -175,12 +176,15 @@ export const updateStudent = async (req, res) => {
       return res.status(404).json({ message: "User not found." });
     }
 
-    res.status(200).json({
+    res.status(201).json({
       message: "Profile updated successfully.",
       student: updatedStudent,
     });
   } catch (error) {
-    res.status(500).json({ message: "Error updating your profile" });
+    res.status(500).json({
+      message: "Error updating your profile",
+      "Error ": error,
+    });
   }
 };
 
@@ -192,7 +196,10 @@ export const getSingleStudent = async (req, res) => {
 
     res.status(200).json(sanitizeUser(student));
   } catch (error) {
-    res.status(500).json({ message: "Error retrieving the student." });
+    res.status(500).json({
+      message: "Error retrieving the student.",
+      "Error ": error,
+    });
   }
 };
 
@@ -202,7 +209,9 @@ export const getAllStudents = async (req, res) => {
 
     res.status(200).json(students);
   } catch (error) {
-    res.status(500).json({ message: "Error retrieving students." });
+    res
+      .status(500)
+      .json({ message: "Error retrieving students.", "Error ": error });
   }
 };
 
@@ -257,7 +266,7 @@ export const verifyOtp = async (req, res) => {
   } catch (error) {
     res
       .status(500)
-      .json({ message: "Internal server error.", error: error.message });
+      .json({ message: "Internal server error.", "Error ": error });
   }
 };
 
@@ -293,8 +302,8 @@ export const resendOtp = async (req, res) => {
     res.status(200).json({ message: "OTP Sent" });
   } catch (error) {
     res.status(500).json({
-      error: error.message,
       message: "Error occurred while resending otp, please try again.",
+      "Error ": error,
     });
   }
 };
@@ -352,9 +361,9 @@ export const forgotPassword = async (req, res) => {
     });
   } catch (error) {
     res.status(500).json({
-      error: error.message,
       message:
         "Error occurred while sending password reset link on your email.",
+      "Error ": error,
     });
   }
 };
@@ -410,6 +419,7 @@ export const resetPassword = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       message: "Error occurred while resetting the password, please try again.",
+      "Error ": error,
     });
   }
 };
@@ -428,6 +438,7 @@ export const logout = async (req, res) => {
     res.status(500).json({
       message:
         "An error occurred while you are trying to logout, please try again.",
+      "Error ": error,
     });
   }
 };
@@ -446,6 +457,7 @@ export const deleteStudent = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       message: "Error occurred while deleting your account, Please try again.",
+      "Error ": error,
     });
   }
 };
