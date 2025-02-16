@@ -2,6 +2,7 @@ export const sanitizeUser = (user) => {
   const sanitizedUser = {
     _id: user._id,
     name: user.name,
+    username: user.username,
     email: user.email,
     role: user.role,
   };
@@ -11,9 +12,8 @@ export const sanitizeUser = (user) => {
       sanitizedUser.isVerified = user.isVerified;
       sanitizedUser.grade = user.grade;
       break;
-    case "donor":
+    case "school":
       sanitizedUser.isVerified = user.isVerified;
-      sanitizedUser.donationAmount = user.donationAmount;
       break;
     case "admin":
       sanitizedUser.isVerified = user.isVerified;
