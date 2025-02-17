@@ -14,7 +14,6 @@ const loginSchool = async (req, res) => {
         message: `School with email ${email} not found! Would you like to register?`,
       });
     }
-    console.log(existingSchool);
 
     const hashedPassword = existingSchool.password;
     if (!hashedPassword) {
@@ -26,6 +25,9 @@ const loginSchool = async (req, res) => {
       return res
         .status(400)
         .json({ message: "Invalid email or password. Please try again. " });
+    }
+    if (!existingSchool.isVerified) {
+      return res.status(400).json({ message: "kindly verify your email" });
     }
     const secureInfo = sanitizeUser(existingSchool);
     const token = generateToken(secureInfo);

@@ -22,8 +22,8 @@ export const registerSchool = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const newSchool = new School({
-      email,
       name,
+      email,
       password: hashedPassword,
     });
     const savedSchool = await newSchool.save();
