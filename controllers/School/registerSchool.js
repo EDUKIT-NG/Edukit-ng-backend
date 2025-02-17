@@ -1,5 +1,5 @@
 import School from "../../models/School.js";
-import schoolSchema from "../../Validation/schoolAuth.js";
+import schoolSchema from "../../Validation/school/registerSchool.js";
 import bcrypt from "bcrypt";
 import { generateOtp } from "../../utils/GenerateOtp.js";
 import Otp from "../../models/Otp.js";
@@ -56,11 +56,11 @@ export const registerSchool = async (req, res) => {
       secure: process.env.PRODUCTION === "true",
     });
 
-    res.status(201).json({
+    return res.status(201).json({
       message: "Registration successful. Please verify your email.",
       school: sanitizeUser(savedSchool),
     });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    return res.status(500).json({ message: error.message });
   }
 };
