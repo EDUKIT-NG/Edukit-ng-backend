@@ -1,6 +1,6 @@
 export const sanitizeUser = (user) => {
   const sanitizedUser = {
-    _id: user._id,
+    _id: user._id.toString(),
     name: user.name,
     username: user.username,
     email: user.email,

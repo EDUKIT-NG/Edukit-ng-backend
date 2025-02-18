@@ -1,0 +1,135 @@
+[2025-02-17T11:49:06.263Z] [ERROR] [TokenMiddleware]: Error verifying token: Cannot destructure property 'token' of 'req.cookies' as it is undefined.
+[2025-02-17T11:49:06.387Z] [ERROR] [HttpLogger]: POST /sponsors/register 500 128.929ms 36bytes - PostmanRuntime/7.43.0 ::1
+[2025-02-17T11:49:59.061Z] [ERROR] [TokenMiddleware]: Error verifying token: Cannot destructure property 'token' of 'req.cookies' as it is undefined.
+[2025-02-17T11:49:59.180Z] [ERROR] [HttpLogger]: POST /sponsors/register 500 133.953ms 36bytes - PostmanRuntime/7.43.0 ::1
+[2025-02-17T11:52:40.334Z] [ERROR] [HttpLogger]: POST /sponsors/register 500 109.881ms 1215bytes - PostmanRuntime/7.43.0 ::1
+[2025-02-17T11:55:07.675Z] [ERROR] [HttpLogger]: POST /sponsors/login 403 206.888ms 92bytes - PostmanRuntime/7.43.0 ::1
+[2025-02-17T11:57:38.874Z] [ERROR] [TokenMiddleware]: Error verifying token: Cannot destructure property 'token' of 'req.cookies' as it is undefined.
+[2025-02-17T11:57:38.943Z] [ERROR] [HttpLogger]: POST /sponsors/resend-otp 500 80.086ms 36bytes - PostmanRuntime/7.43.0 ::1
+[2025-02-17T11:59:27.374Z] [ERROR] [Sponsor]: Error while creating sponsor.
+[2025-02-17T11:59:27.394Z] [ERROR] [HttpLogger]: POST /sponsors/register 500 3531.461ms 83bytes - PostmanRuntime/7.43.0 ::1
+[2025-02-17T12:00:14.189Z] [ERROR] [HttpLogger]: POST /sponsors/register 409 16.661ms 56bytes - PostmanRuntime/7.43.0 ::1
+[2025-02-17T12:00:36.141Z] [ERROR] [Sponsor]: Error while creating sponsor.
+[2025-02-17T12:00:36.155Z] [ERROR] [HttpLogger]: POST /sponsors/register 500 3802.648ms 83bytes - PostmanRuntime/7.43.0 ::1
+[2025-02-17T12:02:14.551Z] [ERROR] [HttpLogger]: POST /sponsors/register 409 138.938ms 56bytes - PostmanRuntime/7.43.0 ::1
+[2025-02-17T12:21:45.316Z] [ERROR] [TokenMiddleware]: Error verifying token: Cannot destructure property 'token' of 'req.cookies' as it is undefined.
+[2025-02-17T12:21:45.349Z] [ERROR] [HttpLogger]: POST /sponsors/verify-otp 500 36.986ms 36bytes - PostmanRuntime/7.43.0 ::1
+[2025-02-17T12:22:08.567Z] [ERROR] [HttpLogger]: POST /sponsors/login 403 151.537ms 92bytes - PostmanRuntime/7.43.0 ::1
+[2025-02-17T12:29:16.323Z] [ERROR] [HttpLogger]: POST /sponsors/login 401 95.476ms 40bytes - PostmanRuntime/7.43.0 ::1
+[2025-02-17T12:30:38.192Z] [ERROR] [Sponsor]: Error while creating sponsor: TypeError: Cannot set properties of undefined (setting 'token')
+[2025-02-17T12:30:38.214Z] [ERROR] [HttpLogger]: POST /sponsors/register 500 3304.744ms 83bytes - PostmanRuntime/7.43.0 ::1
+[2025-02-17T12:32:59.945Z] [ERROR] [HttpLogger]: POST /sponsors/register 409 446.234ms 56bytes - PostmanRuntime/7.43.0 ::1
+[2025-02-17T12:33:58.957Z] [ERROR] [HttpLogger]: POST /sponsors/login 403 226.839ms 92bytes - PostmanRuntime/7.43.0 ::1
+[2025-02-17T12:34:29.134Z] [ERROR] [TokenMiddleware]: Error verifying token: Cannot destructure property 'token' of 'req.cookies' as it is undefined.
+[2025-02-17T12:34:29.137Z] [ERROR] [HttpLogger]: POST /sponsors/resend-otp 500 6.886ms 36bytes - PostmanRuntime/7.43.0 ::1
+[2025-02-17T12:42:29.542Z] [ERROR] [HttpLogger]: POST /sponsors/login 403 581.088ms 92bytes - PostmanRuntime/7.43.0 ::1
+[2025-02-17T12:43:30.351Z] [ERROR] [HttpLogger]: POST /sponsors/login 403 387.094ms 92bytes - PostmanRuntime/7.43.0 ::1
+[2025-02-17T12:44:09.696Z] [ERROR] [TokenMiddleware]: Error verifying token: Converting circular structure to JSON
+    --> starting at object with constructor 'Socket'
+    |     property 'parser' -> object with constructor 'HTTPParser'
+    --- property 'socket' closes the circle
+[2025-02-17T12:44:09.709Z] [ERROR] [HttpLogger]: POST /sponsors/resend-otp 500 30.084ms 36bytes - PostmanRuntime/7.43.0 ::1
+[2025-02-17T12:44:42.798Z] [ERROR] [TokenMiddleware]: Error verifying token: Cannot destructure property 'token' of 'req.cookies' as it is undefined.
+[2025-02-17T12:44:42.897Z] [ERROR] [HttpLogger]: POST /sponsors/resend-otp 500 214.524ms 36bytes - PostmanRuntime/7.43.0 ::1
+[2025-02-17T12:45:36.448Z] [ERROR] [TokenMiddleware]: Error verifying token: Cannot destructure property 'token' of 'req.cookie' as it is undefined.
+[2025-02-17T12:45:36.668Z] [ERROR] [HttpLogger]: POST /sponsors/resend-otp 500 237.931ms 36bytes - PostmanRuntime/7.43.0 ::1
+[2025-02-17T12:46:50.879Z] [ERROR] [Sponsor]: Error while creating sponsor: TypeError: res.cookies is not a function
+[2025-02-17T12:46:50.936Z] [ERROR] [HttpLogger]: POST /sponsors/register 500 2885.495ms 83bytes - PostmanRuntime/7.43.0 ::1
+[2025-02-17T12:49:45.764Z] [ERROR] [HttpLogger]: POST /sponsors/login 403 294.317ms 92bytes - PostmanRuntime/7.43.0 ::1
+[2025-02-17T12:51:22.866Z] [ERROR] [TokenMiddleware]: Error verifying token: Cannot destructure property 'token' of 'req.cookie' as it is undefined.
+[2025-02-17T12:51:23.155Z] [ERROR] [HttpLogger]: POST /sponsors/verify-otp 500 323.817ms 36bytes - PostmanRuntime/7.43.0 ::1
+[2025-02-17T12:54:15.579Z] [ERROR] [TokenMiddleware]: Error verifying token: Cannot destructure property 'token' of 'req.cookies' as it is undefined.
+[2025-02-17T12:54:15.795Z] [ERROR] [HttpLogger]: POST /sponsors/verify-otp 500 436.394ms 36bytes - PostmanRuntime/7.43.0 ::1
+[2025-02-17T13:13:37.722Z] [ERROR] [TokenMiddleware]: Error verifying token: decoded is not defined
+[2025-02-17T13:13:37.977Z] [ERROR] [HttpLogger]: POST /sponsors/verify-otp 500 756.562ms 36bytes - PostmanRuntime/7.43.0 ::1
+[2025-02-17T13:18:06.357Z] [ERROR] [HttpLogger]: POST /students/register 400 140.238ms 36bytes - PostmanRuntime/7.43.0 ::1
+[2025-02-17T13:20:26.714Z] [ERROR] [HttpLogger]: POST /students/register 500 1893.527ms 83bytes - PostmanRuntime/7.43.0 ::1
+[2025-02-17T13:21:52.619Z] [ERROR] [HttpLogger]: POST /students/register 400 295.048ms 56bytes - PostmanRuntime/7.43.0 ::1
+[2025-02-17T13:24:52.993Z] [ERROR] [HttpLogger]: POST /students/login 401 319.334ms 40bytes - PostmanRuntime/7.43.0 ::1
+[2025-02-17T13:26:03.200Z] [ERROR] [HttpLogger]: GET /sponsors/67b1fb2d5978227e880cd631 500 265.971ms 43bytes - PostmanRuntime/7.43.0 ::1
+[2025-02-17T13:27:46.340Z] [ERROR] [SponsorController]: Error while retrieving sponsor: TypeError: Cannot read properties of null (reading '_id')
+[2025-02-17T13:27:46.524Z] [ERROR] [HttpLogger]: GET /sponsors/67b1fb2d5978227e880cd631 500 308.469ms 43bytes - PostmanRuntime/7.43.0 ::1
+[2025-02-17T13:29:48.891Z] [ERROR] [SponsorController]: Error while retrieving sponsor: TypeError: Cannot read properties of null (reading '_id')
+[2025-02-17T13:29:48.983Z] [ERROR] [HttpLogger]: GET /sponsors/67b1fb2d5978227e880cd631 500 316.121ms 43bytes - PostmanRuntime/7.43.0 ::1
+[2025-02-17T13:31:02.953Z] [ERROR] [SponsorController]: Error while retrieving sponsor: TypeError: Cannot read properties of null (reading '_id')
+[2025-02-17T13:31:03.082Z] [ERROR] [HttpLogger]: GET /sponsors/67b1fb2d5978227e880cd631 500 313.130ms 43bytes - PostmanRuntime/7.43.0 ::1
+[2025-02-17T13:32:23.022Z] [ERROR] [SponsorController]: Error while retrieving sponsor: TypeError: Cannot read properties of null (reading '_id')
+[2025-02-17T13:32:23.045Z] [ERROR] [HttpLogger]: GET /sponsors/67b1fb2d5978227e880cd631 500 259.253ms 43bytes - PostmanRuntime/7.43.0 ::1
+[2025-02-17T13:33:13.103Z] [ERROR] [SponsorController]: Error while retrieving sponsor: CastError: Cast to ObjectId failed for value "<Buffer 67 b3 37 fe c4 73 b0 b2 28 25 9f 55>" (type Buffer) at path "_id" for model "Sponsor"
+[2025-02-17T13:33:13.185Z] [ERROR] [HttpLogger]: GET /sponsors/67b1fb2d5978227e880cd631 500 378.394ms 43bytes - PostmanRuntime/7.43.0 ::1
+[2025-02-17T13:34:03.006Z] [ERROR] [SponsorController]: Error while retrieving sponsor: ReferenceError: Types is not defined
+[2025-02-17T13:34:03.195Z] [ERROR] [HttpLogger]: GET /sponsors/67b1fb2d5978227e880cd631 500 313.619ms 43bytes - PostmanRuntime/7.43.0 ::1
+[2025-02-17T13:35:58.621Z] [ERROR] [SponsorController]: Error while retrieving sponsor: CastError: Cast to ObjectId failed for value "<Buffer 67 b3 37 fe c4 73 b0 b2 28 25 9f 55>" (type Buffer) at path "_id" for model "Sponsor"
+[2025-02-17T13:35:58.775Z] [ERROR] [HttpLogger]: GET /sponsors/67b1fb2d5978227e880cd631 500 224.959ms 43bytes - PostmanRuntime/7.43.0 ::1
+[2025-02-17T13:37:27.168Z] [ERROR] [SponsorController]: Error while retrieving sponsor: TypeError: logger.infp is not a function
+[2025-02-17T13:37:27.299Z] [ERROR] [HttpLogger]: GET /sponsors/67b1fb2d5978227e880cd631 500 612.796ms 43bytes - PostmanRuntime/7.43.0 ::1
+[2025-02-17T13:37:59.204Z] [ERROR] [SponsorController]: Error while retrieving sponsor: TypeError: logger.infpo is not a function
+[2025-02-17T13:37:59.298Z] [ERROR] [HttpLogger]: GET /sponsors/67b1fb2d5978227e880cd631 500 279.065ms 43bytes - PostmanRuntime/7.43.0 ::1
+[2025-02-17T13:38:29.492Z] [ERROR] [SponsorController]: Error while retrieving sponsor: TypeError: Cannot read properties of null (reading '_id')
+[2025-02-17T13:38:29.963Z] [ERROR] [HttpLogger]: GET /sponsors/67b1fb2d5978227e880cd631 500 2079.089ms 43bytes - PostmanRuntime/7.43.0 ::1
+[2025-02-17T13:39:35.956Z] [ERROR] [SponsorController]: Error while retrieving sponsor: TypeError: Cannot read properties of null (reading '_id')
+[2025-02-17T13:39:35.975Z] [ERROR] [HttpLogger]: GET /sponsors/67b1fb2d5978227e880cd631 500 172.789ms 43bytes - PostmanRuntime/7.43.0 ::1
+[2025-02-17T13:40:56.387Z] [ERROR] [SponsorController]: Error while retrieving sponsor: TypeError: Cannot read properties of null (reading '_id')
+[2025-02-17T13:40:56.471Z] [ERROR] [HttpLogger]: GET /sponsors/67b1fb2d5978227e880cd631 500 282.408ms 43bytes - PostmanRuntime/7.43.0 ::1
+[2025-02-17T13:41:49.839Z] [ERROR] [HttpLogger]: POST /sponsors/login 403 237.136ms 92bytes - PostmanRuntime/7.43.0 ::1
+[2025-02-17T13:42:53.942Z] [ERROR] [HttpLogger]: POST /students/verify-otp 404 32.235ms 70bytes - PostmanRuntime/7.43.0 ::1
+[2025-02-17T13:48:42.051Z] [ERROR] [HttpLogger]: GET /sponsors/67b335e20d0d818af47dbc79 404 237.141ms 32bytes - PostmanRuntime/7.43.0 ::1
+[2025-02-17T13:50:33.089Z] [ERROR] [HttpLogger]: GET /sponsors/67b335e20d0d818af47dbc78 404 46.015ms 32bytes - PostmanRuntime/7.43.0 ::1
+[2025-02-18T06:34:35.787Z] [ERROR] [HttpLogger]: GET /sponsors/67b335e20d0d818af47dbc79 403 198.632ms 62bytes - PostmanRuntime/7.43.0 ::1
+[2025-02-18T06:35:31.976Z] [ERROR] [HttpLogger]: GET /students/67b337fec473b0b228259f55 403 82.142ms 62bytes - PostmanRuntime/7.43.0 ::1
+[2025-02-18T06:37:14.331Z] [ERROR] [HttpLogger]: GET /students/67b337fec473b0b228259f55 403 36.965ms 62bytes - PostmanRuntime/7.43.0 ::1
+[2025-02-18T06:39:38.024Z] [ERROR] [HttpLogger]: GET /students/67b337fec473b0b228259f55 403 316.858ms 62bytes - PostmanRuntime/7.43.0 ::1
+[2025-02-18T06:44:33.884Z] [ERROR] [HttpLogger]: GET /students/67b337fec473b0b228259f55 403 689.373ms 62bytes - PostmanRuntime/7.43.0 ::1
+[2025-02-18T06:50:35.038Z] [ERROR] [HttpLogger]: GET /students/67b337fec473b0b228259f55 403 219.535ms 62bytes - PostmanRuntime/7.43.0 ::1
+[2025-02-18T06:56:25.461Z] [ERROR] [HttpLogger]: GET /students/67b337fec473b0b228259f55 403 156.095ms 62bytes - PostmanRuntime/7.43.0 ::1
+[2025-02-18T06:58:12.067Z] [ERROR] [HttpLogger]: GET /students/67b337fec473b0b228259f55 403 1324.661ms 62bytes - PostmanRuntime/7.43.0 ::1
+[2025-02-18T06:59:57.773Z] [ERROR] [HttpLogger]: GET /sponsors/67b335e20d0d818af47dbc79 403 122.891ms 62bytes - PostmanRuntime/7.43.0 ::1
+[2025-02-18T07:01:45.189Z] [ERROR] [HttpLogger]: GET /sponsors/67b335e20d0d818af47dbc79 403 502.765ms 62bytes - PostmanRuntime/7.43.0 ::1
+[2025-02-18T07:19:56.736Z] [ERROR] [HttpLogger]: GET /students/67b337fec473b0b228259f55 500 332.500ms 1006bytes - PostmanRuntime/7.43.0 ::1
+[2025-02-18T07:20:54.751Z] [ERROR] [HttpLogger]: GET /sponsors/67b335e20d0d818af47dbc79 403 168.801ms 65bytes - PostmanRuntime/7.43.0 ::1
+[2025-02-18T07:21:10.800Z] [ERROR] [HttpLogger]: PATCH /sponsors/update/67b22d8c3eaec52693f24b03 403 319.150ms 65bytes - PostmanRuntime/7.43.0 ::1
+[2025-02-18T07:21:21.419Z] [ERROR] [HttpLogger]: POST /sponsors/resend-otp 403 31.910ms 65bytes - PostmanRuntime/7.43.0 ::1
+[2025-02-18T07:22:12.207Z] [ERROR] [HttpLogger]: POST /sponsors/resend-otp 500 855.601ms 1213bytes - PostmanRuntime/7.43.0 ::1
+[2025-02-18T07:22:38.989Z] [ERROR] [HttpLogger]: POST /sponsors/resend-otp 403 536.070ms 65bytes - PostmanRuntime/7.43.0 ::1
+[2025-02-18T07:23:46.581Z] [ERROR] [HttpLogger]: POST /sponsors/resend-otp 403 257.712ms 65bytes - PostmanRuntime/7.43.0 ::1
+[2025-02-18T07:24:16.238Z] [ERROR] [HttpLogger]: POST /sponsors/resend-otp 403 452.219ms 65bytes - PostmanRuntime/7.43.0 ::1
+[2025-02-18T07:50:30.673Z] [ERROR] [HttpLogger]: POST /sponsors/login 401 414.184ms 40bytes - PostmanRuntime/7.43.0 ::1
+[2025-02-18T07:50:56.255Z] [ERROR] [HttpLogger]: POST /sponsors/login 401 191.544ms 40bytes - PostmanRuntime/7.43.0 ::1
+[2025-02-18T07:50:59.622Z] [ERROR] [HttpLogger]: POST /sponsors/login 401 360.758ms 40bytes - PostmanRuntime/7.43.0 ::1
+[2025-02-18T07:51:53.728Z] [ERROR] [HttpLogger]: POST /sponsors/login 401 589.645ms 40bytes - PostmanRuntime/7.43.0 ::1
+[2025-02-18T07:52:01.529Z] [ERROR] [HttpLogger]: POST /sponsors/login 401 256.180ms 40bytes - PostmanRuntime/7.43.0 ::1
+[2025-02-18T07:52:10.175Z] [ERROR] [HttpLogger]: POST /sponsors/login 401 252.644ms 40bytes - PostmanRuntime/7.43.0 ::1
+[2025-02-18T07:52:13.862Z] [ERROR] [HttpLogger]: POST /sponsors/login 401 190.844ms 40bytes - PostmanRuntime/7.43.0 ::1
+[2025-02-18T07:52:16.245Z] [ERROR] [HttpLogger]: POST /sponsors/login 403 107.901ms 65bytes - PostmanRuntime/7.43.0 ::1
+[2025-02-18T07:52:26.956Z] [ERROR] [HttpLogger]: POST /sponsors/login 403 75.924ms 65bytes - PostmanRuntime/7.43.0 ::1
+[2025-02-18T07:52:30.985Z] [ERROR] [HttpLogger]: POST /sponsors/login 403 60.091ms 65bytes - PostmanRuntime/7.43.0 ::1
+[2025-02-18T07:52:34.818Z] [ERROR] [HttpLogger]: POST /sponsors/login 403 26.715ms 65bytes - PostmanRuntime/7.43.0 ::1
+[2025-02-18T07:53:48.801Z] [ERROR] [HttpLogger]: POST /sponsors/login 403 17.276ms 64bytes - PostmanRuntime/7.43.0 ::1
+[2025-02-18T07:54:04.173Z] [ERROR] [HttpLogger]: POST /sponsors/login 403 27.210ms 64bytes - PostmanRuntime/7.43.0 ::1
+[2025-02-18T07:54:07.021Z] [ERROR] [HttpLogger]: POST /sponsors/login 403 64.194ms 64bytes - PostmanRuntime/7.43.0 ::1
+[2025-02-18T07:54:09.054Z] [ERROR] [HttpLogger]: POST /sponsors/login 403 27.788ms 64bytes - PostmanRuntime/7.43.0 ::1
+[2025-02-18T07:54:11.163Z] [ERROR] [HttpLogger]: POST /sponsors/login 403 8.846ms 64bytes - PostmanRuntime/7.43.0 ::1
+[2025-02-18T07:55:05.990Z] [ERROR] [HttpLogger]: POST /sponsors/login 403 11.283ms 64bytes - PostmanRuntime/7.43.0 ::1
+[2025-02-18T07:55:21.348Z] [ERROR] [HttpLogger]: POST /sponsors/login 403 11.264ms 65bytes - PostmanRuntime/7.43.0 ::1
+[2025-02-18T07:56:49.729Z] [ERROR] [HttpLogger]: POST /sponsors/login 401 220.863ms 40bytes - PostmanRuntime/7.43.0 ::1
+[2025-02-18T07:56:54.989Z] [ERROR] [HttpLogger]: POST /sponsors/login 401 162.836ms 40bytes - PostmanRuntime/7.43.0 ::1
+[2025-02-18T07:56:57.470Z] [ERROR] [HttpLogger]: POST /sponsors/login 401 192.889ms 40bytes - PostmanRuntime/7.43.0 ::1
+[2025-02-18T07:57:07.796Z] [ERROR] [HttpLogger]: POST /sponsors/login 401 157.766ms 40bytes - PostmanRuntime/7.43.0 ::1
+[2025-02-18T07:57:10.110Z] [ERROR] [HttpLogger]: POST /sponsors/login 403 143.594ms 65bytes - PostmanRuntime/7.43.0 ::1
+[2025-02-18T08:00:19.757Z] [ERROR] [HttpLogger]: POST /sponsors/login 401 284.822ms 40bytes - PostmanRuntime/7.43.0 ::1
+[2025-02-18T08:00:24.785Z] [ERROR] [HttpLogger]: POST /sponsors/login 401 1735.190ms 40bytes - PostmanRuntime/7.43.0 ::1
+[2025-02-18T08:00:30.898Z] [ERROR] [HttpLogger]: POST /sponsors/login 401 159.707ms 40bytes - PostmanRuntime/7.43.0 ::1
+[2025-02-18T08:00:32.753Z] [ERROR] [HttpLogger]: POST /sponsors/login 401 182.819ms 40bytes - PostmanRuntime/7.43.0 ::1
+[2025-02-18T08:00:34.725Z] [ERROR] [HttpLogger]: POST /sponsors/login 403 105.736ms 64bytes - PostmanRuntime/7.43.0 ::1
+[2025-02-18T08:00:44.838Z] [ERROR] [HttpLogger]: POST /sponsors/login 403 278.656ms 64bytes - PostmanRuntime/7.43.0 ::1
+[2025-02-18T08:01:06.023Z] [ERROR] [HttpLogger]: POST /sponsors/login 403 42.695ms 64bytes - PostmanRuntime/7.43.0 ::1
+[2025-02-18T08:01:35.461Z] [ERROR] [HttpLogger]: POST /sponsors/login 403 41.599ms 64bytes - PostmanRuntime/7.43.0 ::1
+[2025-02-18T08:02:43.630Z] [ERROR] [HttpLogger]: POST /sponsors/login 403 68.197ms 65bytes - PostmanRuntime/7.43.0 ::1
+[2025-02-18T08:04:17.734Z] [ERROR] [HttpLogger]: POST /sponsors/login 403 25.794ms 64bytes - PostmanRuntime/7.43.0 ::1
+[2025-02-18T08:04:57.875Z] [ERROR] [HttpLogger]: POST /sponsors/login 403 60.809ms 65bytes - PostmanRuntime/7.43.0 ::1
+[2025-02-18T08:43:42.535Z] [ERROR] [HttpLogger]: POST /sponsors/login 401 405.974ms 40bytes - PostmanRuntime/7.43.0 ::1
+[2025-02-18T08:43:51.495Z] [ERROR] [HttpLogger]: POST /sponsors/login 401 160.030ms 40bytes - PostmanRuntime/7.43.0 ::1
+[2025-02-18T08:43:53.793Z] [ERROR] [HttpLogger]: POST /sponsors/login 401 195.033ms 40bytes - PostmanRuntime/7.43.0 ::1
+[2025-02-18T08:43:55.776Z] [ERROR] [HttpLogger]: POST /sponsors/login 401 112.377ms 40bytes - PostmanRuntime/7.43.0 ::1
+[2025-02-18T08:43:57.611Z] [ERROR] [HttpLogger]: POST /sponsors/login 403 150.300ms 64bytes - PostmanRuntime/7.43.0 ::1
+[2025-02-18T08:44:29.216Z] [ERROR] [HttpLogger]: POST /sponsors/login 403 124.761ms 64bytes - PostmanRuntime/7.43.0 ::1

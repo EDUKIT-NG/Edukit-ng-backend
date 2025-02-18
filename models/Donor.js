@@ -12,6 +12,7 @@ const donarSchema = new Schema(
     address: { type: String, required: true },
     paymentType: {
       resourceType: { type: String, required: true },
+      type: String,
       default: "bank",
       enum: ["bank", "credit", "mobile"],
     },

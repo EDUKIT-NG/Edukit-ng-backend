@@ -7,6 +7,9 @@ import { generateOtp } from "../utils/GenerateOtp.js";
 import PasswordResetToken from "../models/PasswordResetToken.js";
 import { sendMail } from "../utils/Email.js";
 import mongoose from "mongoose";
+import Logger from "../utils/Logger.js";
+
+const logger = Logger("StudentController");
 
 export const registerStudent = async (req, res) => {
   try {
@@ -67,6 +70,8 @@ export const registerStudent = async (req, res) => {
       expiresAt: Date.now() + parseInt(process.env.OTP_EXPIRATION_TIME),
     });
     await newOtp.save();
+    logger.info(`OTP: ${otp}`);
+    logger.info(`Student: ${createStudent}`);
 
     // send otp to email
     await sendMail(
