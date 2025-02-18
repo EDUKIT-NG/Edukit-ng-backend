@@ -15,6 +15,9 @@ export const sanitizeUser = (user) => {
     case "school":
       sanitizedUser.isVerified = user.isVerified;
       break;
+    case "sponsor":
+      sanitizedUser.isVerified = user.isVerified;
+      break;
     case "admin":
       sanitizedUser.isVerified = user.isVerified;
       sanitizedUser.isAdmin = user.isAdmin;

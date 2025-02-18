@@ -16,7 +16,7 @@ export const registerStudent = asyncHandler(async (req, res) => {
   // check if student email exist or not
   const existingStudent = await Student.findOne({ email });
   if (existingStudent) {
-    throw new Error("User already exists, please login instead.");
+    throw new Error("User already exists, please login.");
   }
 
   // checks if username already exists
@@ -91,7 +91,7 @@ export const registerStudent = asyncHandler(async (req, res) => {
   res.status(201).json({
     message:
       "Registration successful. OTP sent to your email. Please enter to verify your email.",
-    student: sanitizeUser(createStudent),
+    student: secureInfo,
   });
 });
 
@@ -217,12 +217,12 @@ export const verifyOtp = asyncHandler(async (req, res) => {
     );
 
     return res.status(200).json({
-      message: "Email verified:",
+      message: "Email verified, You can now login.",
       student: sanitizeUser(verifiedStudent),
     });
   }
 
-  return res.status(400).json({ message: "Otp is invalid or expired." });
+  throw new Error("Otp is invalid or has expired.");
 });
 
 export const resendOtp = asyncHandler(async (req, res) => {
@@ -350,7 +350,7 @@ export const resetPassword = asyncHandler(async (req, res) => {
     return res.status(200).json({ message: "Password updated successfully." });
   }
 
-  return res.status(404).json({ message: "Reset link has expired." });
+  throw new Error("Reset link has expired.");
 });
 
 export const logout = asyncHandler(async (req, res) => {
@@ -370,7 +370,7 @@ export const deleteStudent = asyncHandler(async (req, res) => {
   const deletedStudent = await Student.findByIdAndDelete(studentId);
 
   if (!deletedStudent) {
-    throw new Error("User not found");
+    throw new Error("Student not found");
   }
 
   res.status(200).json({ message: "Account deleted successfully." });
