@@ -12,6 +12,7 @@ import { EditSchool } from "../controllers/School/editSchool.js";
 import { deleteSchool } from "../controllers/School/deleteSchool.js";
 import logoutSchool from "../controllers/School/logout.js";
 import resetPassword from "../controllers/School/resetPassword.js";
+import { createProfile } from "../controllers/School/SchoolProfile.js";
 
 const router = Router();
 
@@ -25,5 +26,6 @@ router.get("/:id", getASingleSchool);
 router.put("/:id", EditSchool);
 router.delete("/:id", deleteSchool);
 router.post("/logout", logoutSchool);
+router.put("/create-profile/:id", createProfile);
 
 export default router;
