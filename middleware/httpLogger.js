@@ -1,7 +1,7 @@
 import Logger from "../utils/Logger.js";
 
 // Create logger instance with context 'HttpLogger'
-const logger = Logger("HttpLogger");
+const logger = Logger.getLogger("HttpLogger");
 
 const httpLogger = (req, res, next) => {
   const startAt = process.hrtime();

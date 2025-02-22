@@ -1,7 +1,7 @@
 import asyncHandler from "express-async-handler";
 import Logger from "../utils/Logger.js";
 
-const logger = Logger("RBACMiddleware");
+const logger = Logger.getLogger("AuthorizeRole");
 
 // Role-based access middleware
 export const authorizeRoles = (...allowedRoles) => {

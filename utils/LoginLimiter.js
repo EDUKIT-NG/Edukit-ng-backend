@@ -1,6 +1,6 @@
 import Logger from "./Logger.js";
 
-const logger = Logger("LoginLimiter");
+const logger = Logger.getLogger("LoginLimiter");
 const failedLoginAttempts = new Map();
 
 // Progressive lockout settings

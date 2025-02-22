@@ -9,7 +9,7 @@ import { sendMail } from "../utils/Email.js";
 import mongoose from "mongoose";
 import Logger from "../utils/Logger.js";
 
-const logger = Logger("StudentController");
+const logger = Logger.getLogger("StudentController");
 
 export const registerStudent = async (req, res) => {
   try {

@@ -1,6 +1,5 @@
 import express from "express";
 import mongoose from "mongoose";
-import morgan from "morgan";
 import cors from "cors";
 import session from "express-session";
 import cookieParser from "cookie-parser";
@@ -11,6 +10,7 @@ import studentRouter from "./routes/Student.js";
 import sponsorRouter from "./routes/Sponsor.js";
 import { verifyToken } from "./middleware/VerifyToken.js";
 import { authorizeRoles } from "./middleware/AuthorizeRole.js";
+import { errorHandler } from "./middleware/ResponseHandler.js"
 
 dotenv.config();
 const app = express();
@@ -18,7 +18,7 @@ const app = express();
 const port = process.env.PORT;
 const db = process.env.MONGO_URI;
 
-const logger = Logger('Main');
+const logger = Logger.createLogger("Main");
 
 // connect to database
 mongoose
@@ -110,6 +110,8 @@ app.use("/sponsors", sponsorRouter);
 app.get("/", (req, res) => {
   res.send("Running");
 });
+
+app.use(errorHandler);
 
 app.listen(port, () => {
   logger.info(`Server is running on port ${port}`);

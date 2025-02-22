@@ -8,7 +8,7 @@ import School from "../models/School.js";
 import { sanitizeUser } from "../utils/SanitizeUser.js";
 
 dotenv.config();
-const logger = Logger("TokenMiddleware");
+const logger = Logger.getLogger("TokenMiddleware");
 
 const users = {
   student: Student,
