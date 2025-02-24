@@ -1,0 +1,31 @@
+import { Router } from "express";
+import { registerSchool } from "../controllers/School/registerSchool.js";
+import loginSchool from "../controllers/School/loginSchool.js";
+import { verifyOtp } from "../controllers/School/verifySchool.js";
+import resendOtp from "../controllers/School/resendOtp.js";
+
+import {
+  getAllSchools,
+  getASingleSchool,
+} from "../controllers/School/getSchool.js";
+import { EditSchool } from "../controllers/School/editSchool.js";
+import { deleteSchool } from "../controllers/School/deleteSchool.js";
+import logoutSchool from "../controllers/School/logout.js";
+import resetPassword from "../controllers/School/resetPassword.js";
+import { createProfile } from "../controllers/School/SchoolProfile.js";
+
+const router = Router();
+
+router.post("/register", registerSchool);
+router.post("/login", loginSchool);
+router.post("/verify", verifyOtp);
+router.post("/resend-otp", resendOtp);
+router.post("/reset-password", resetPassword);
+router.get("/", getAllSchools);
+router.get("/:id", getASingleSchool);
+router.put("/:id", EditSchool);
+router.delete("/:id", deleteSchool);
+router.post("/logout", logoutSchool);
+router.put("/create-profile/:id", createProfile);
+
+export default router;
