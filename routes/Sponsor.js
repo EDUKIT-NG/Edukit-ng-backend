@@ -1,33 +1,32 @@
 import express from "express";
 import {
-  getAllStudents,
-  deleteStudent,
-  getSingleStudent,
-  updateStudent,
+  getAllSponsors,
+  deleteSponsor,
+  getSingleSponsor,
+  updateSponsor,
   logout,
   verifyOtp,
   resendOtp,
   forgotPassword,
   resetPassword,
-  loginStudent,
-  registerStudent,
-  loginStudent,
-} from "../controllers/Student.js";
+  registerSponsor,
+  loginSponsor,
+} from "../controllers/Sponsor.js";
 import { isOwner } from "../middleware/IsOwner.js";
 
 const router = express.Router();
 
 router
-  .post("/register", registerStudent)
-  .post("/login", loginStudent)
+  .post("/register", registerSponsor)
+  .post("/login", loginSponsor)
   .post("/verify-otp", verifyOtp)
   .post("/resend-otp", resendOtp)
   .post("/forgot-password", forgotPassword)
   .post("/reset-password", resetPassword)
   .post("/logout", logout)
-  .delete("/delete/:id", isOwner, deleteStudent)
-  .get("/", getAllStudents)
-  .get("/:id", isOwner, getSingleStudent)
-  .put("/update/:id", isOwner, updateStudent);
+  .delete("/delete/:id", isOwner,deleteSponsor)
+  .get("/", getAllSponsors)
+  .get("/:id", isOwner, getSingleSponsor)
+  .patch("/update/:id", isOwner, updateSponsor);
 
 export default router;

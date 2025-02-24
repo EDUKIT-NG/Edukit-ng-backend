@@ -1,7 +1,21 @@
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
+import Logger from "../utils/Logger.js";
+import Student from "../models/Student.js";
+import Sponsor from "../models/Sponsor.js";
+import Donor from "../models/Donor.js";
+import School from "../models/School.js";
+import { sanitizeUser } from "../utils/SanitizeUser.js";
 
 dotenv.config();
+const logger = Logger.getLogger("TokenMiddleware");
+
+const users = {
+  student: Student,
+  sponsor: Sponsor,
+  donor: Donor,
+  school: School,
+}
 
 export const verifyToken = async (req, res, next) => {
   try {
@@ -18,19 +32,22 @@ export const verifyToken = async (req, res, next) => {
     // verifies the token
     const decodedInfo = jwt.verify(token, process.env.SECRET_KEY);
 
-    // checks if decoded info contains legit details, then set that info in req.user and calls next
-    if (decodedInfo && decodedInfo._id && decodedInfo.email) {
-      req.user = decodedInfo;
-      return next();
+    // Fetch user details
+    const User = users[decodedInfo.role];
+    const user = sanitizeUser(await User.findById(decodedInfo._id));
+    logger.info(`User: ${JSON.stringify(user, null, 2)}`);
+
+    // If user does not exist or is soft deleted
+    if (!user || user.isDeleted) {
+      logger.warn(`Invalid token used by ${req.ip}.\nToken: ${token}`);
+      return res.status(401).json({ message: "Unauthorized: User not found" });
     }
 
-    // sends 401 if the token is Invalid
-    else {
-      return res
-        .status(401)
-        .json({ message: "Invalid token, please login again." });
-    }
+    // Attach user details to request object
+    req.user = user;
+    next();
   } catch (error) {
+    logger.error(`Error verifying token: ${error.message}`);
     if (error instanceof jwt.TokenExpiredError) {
       return res
         .status(401)
