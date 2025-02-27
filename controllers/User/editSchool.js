@@ -1,7 +1,7 @@
-// import School from "../../models/School.js";
-// export const EditSchool = async (req, res) => {
+// export const EditUser = async (req, res) => {
 //   try {
 //     const { id } = req.params;
+
 //     const { email, password, name } = req.body;
 //     let school = await School.findByIdAndUpdate(id, { email, password, name });
 //     if (!school) {
