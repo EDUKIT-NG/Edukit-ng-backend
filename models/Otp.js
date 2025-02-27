@@ -9,7 +9,7 @@ const otpSchema = new Schema(
       userType: {
         type: String,
         required: true,
-        enum: ["Student", "Donor", "Volunteer", "School", "Sponsor"],
+        enum: ["student", "school", "volunteer", "admin", "partner"],
       },
     },
     otp: { type: String, required: true },

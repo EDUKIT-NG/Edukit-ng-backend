@@ -5,8 +5,9 @@ import session from "express-session";
 import morgan from "morgan";
 import dotenv from "dotenv";
 dotenv.config();
-import router from "./routes/Student.js";
-import schoolRouter from "./routes/School.js";
+
+import userRouter from "./routes/User.js";
+import errorHandling from "./middleware/errorHandling.js";
 
 const app = express();
 
@@ -60,13 +61,13 @@ app.use(
   })
 );
 
-app.use("/students", router);
-app.use("/api/school", schoolRouter);
+app.use("/api/user", userRouter);
 
 app.get("/", (req, res) => {
   res.send("Running");
 });
 
+app.use(errorHandling);
 app.listen(port, () => {
   console.log("Server running on port 5000");
 });
