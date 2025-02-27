@@ -61,11 +61,7 @@ export const registerUser = expressAsyncHandler(async (req, res, next) => {
       httpOnly: true,
       secure: process.env.PRODUCTION === "true",
     });
-    // await sendMail(
-    //   email,
-    //   "Account Creation",
-    //   `Your account has been created successfully</b>`
-    // );
+
     await session.commitTransaction();
 
     return res.status(201).json({

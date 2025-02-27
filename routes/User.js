@@ -1,6 +1,5 @@
 import { Router } from "express";
 
-// import { verifyOtp } from "../controllers/School/verifySchool.js";
 // import resendOtp from "../controllers/School/resendOtp.js";
 
 // import {
@@ -13,12 +12,13 @@ import { Router } from "express";
 // import resetPassword from "../controllers/School/resetPassword.js";
 // import { createProfile } from "../controllers/School/SchoolProfile.js";
 import { registerUser } from "../controllers/User/registerUser.js";
+import { verifyOtp } from "../controllers/User/verifyUser.js";
 
 const router = Router();
 
 router.post("/register", registerUser);
 // router.post("/login", loginSchool);
-// router.post("/verify", verifyOtp);
+router.post("/verify/:id", verifyOtp);
 // router.post("/resend-otp", resendOtp);
 // router.post("/reset-password", resetPassword);
 // router.get("/", getAllSchools);
