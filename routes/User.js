@@ -1,7 +1,5 @@
 import { Router } from "express";
 
-// import resendOtp from "../controllers/School/resendOtp.js";
-
 // import {
 //   getAllSchools,
 //   getASingleSchool,
@@ -13,13 +11,14 @@ import { Router } from "express";
 // import { createProfile } from "../controllers/School/SchoolProfile.js";
 import { registerUser } from "../controllers/User/registerUser.js";
 import { verifyOtp } from "../controllers/User/verifyUser.js";
+import resendOtp from "../controllers/User/resendOtp.js";
 
 const router = Router();
 
 router.post("/register", registerUser);
 // router.post("/login", loginSchool);
 router.post("/verify/:id", verifyOtp);
-// router.post("/resend-otp", resendOtp);
+router.post("/resend-otp/:id", resendOtp);
 // router.post("/reset-password", resetPassword);
 // router.get("/", getAllSchools);
 // router.get("/:id", getASingleSchool);

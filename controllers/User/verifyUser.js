@@ -13,7 +13,6 @@ export const verifyOtp = expressAsyncHandler(async (req, res) => {
     const { otp } = req.body;
 
     const user = await User.findById(id);
-    console.log(user);
 
     if (!user) {
       session.abortTransaction();
@@ -29,22 +28,21 @@ export const verifyOtp = expressAsyncHandler(async (req, res) => {
     }
 
     const isOtpExisting = await Otp.findOne({ "user.id": id });
-    console.log("OTP", isOtpExisting);
 
     if (!isOtpExisting) {
-      session.abortTransaction();
+      await session.abortTransaction();
       return res.status(404).json({ message: "Otp not found." });
     }
 
     if (isOtpExisting.expiresAt < new Date()) {
       await Otp.findByIdAndDelete(isOtpExisting._id);
-      session.abortTransaction();
+      await session.abortTransaction();
       return res.status(400).json({ message: "Otp has expired." });
     }
 
     const isMatch = await bcrypt.compare(otp, isOtpExisting.otp);
     if (!isMatch) {
-      session.abortTransaction();
+      await session.abortTransaction();
       return res.status(400).json({ message: "Invalid OTP." });
     }
 
@@ -59,7 +57,7 @@ export const verifyOtp = expressAsyncHandler(async (req, res) => {
       "Account Creation",
       `Your account has been created successfully</b>`
     );
-    session.commitTransaction();
+    await session.commitTransaction();
 
     return res.status(200).json({
       message: "Email verified:",
