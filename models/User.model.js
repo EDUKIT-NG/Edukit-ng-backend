@@ -23,6 +23,18 @@ const userSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    PhoneNumber: {
+      type: String,
+    },
+    Grade: {
+      type: String,
+    },
+    StudentSchool: {
+      type: String,
+    },
+    Address: {
+      type: String,
+    },
   },
   {
     timestamps: true,
