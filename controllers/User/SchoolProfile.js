@@ -3,6 +3,7 @@ import User from "../../models/User.model.js";
 
 import expressAsyncHandler from "express-async-handler";
 import profileSchema from "../../Validation/User/schoolProfile.js";
+import { sanitizeUser } from "../../utils/SanitizeUser.js";
 
 export const createProfileSchool = expressAsyncHandler(async (req, res) => {
   const session = await mongoose.startSession();
@@ -25,7 +26,10 @@ export const createProfileSchool = expressAsyncHandler(async (req, res) => {
     await session.commitTransaction();
     return res
       .status(201)
-      .json({ message: "Profile created successfully", schoolData });
+      .json({
+        message: "Profile created successfully",
+        school: sanitizeUser(schoolData),
+      });
   } catch (error) {
     await session.abortTransaction();
     throw error;

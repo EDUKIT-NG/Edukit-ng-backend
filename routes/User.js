@@ -1,7 +1,5 @@
 import { Router } from "express";
 
-// import { EditSchool } from "../controllers/School/editSchool.js";
-
 import { registerUser } from "../controllers/User/registerUser.js";
 import { verifyOtp } from "../controllers/User/verifyUser.js";
 import resendOtp from "../controllers/User/resendOtp.js";
@@ -11,6 +9,7 @@ import logout from "../controllers/User/logout.js";
 import { getAllUsers, getASingleUser } from "../controllers/User/getUser.js";
 import { deleteUser } from "../controllers/User/deleteUser.js";
 import { createProfileSchool } from "../controllers/User/SchoolProfile.js";
+import createStudentProfile from "../controllers/User/studentProfile.js";
 
 const router = Router();
 
@@ -24,6 +23,7 @@ router.get("/:id", getASingleUser);
 
 router.delete("/:id", deleteUser);
 router.post("/logout", logout);
-router.put("/create-profile/:id", createProfileSchool);
+router.put("/create-school-profile/:id", createProfileSchool);
+router.put("/create-student-profile/:id", createStudentProfile);
 
 export default router;

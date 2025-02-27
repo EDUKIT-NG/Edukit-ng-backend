@@ -23,16 +23,16 @@ const userSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
-    PhoneNumber: {
+    phoneNumber: {
       type: String,
     },
-    Grade: {
+    grade: {
       type: String,
     },
-    StudentSchool: {
+    studentSchool: {
       type: String,
     },
-    Address: {
+    address: {
       type: String,
     },
   },
