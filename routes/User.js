@@ -1,7 +1,6 @@
 import { Router } from "express";
 
 // import { EditSchool } from "../controllers/School/editSchool.js";
-// import { deleteSchool } from "../controllers/School/deleteSchool.js";
 
 // import { createProfile } from "../controllers/School/SchoolProfile.js";
 import { registerUser } from "../controllers/User/registerUser.js";
@@ -11,6 +10,7 @@ import loginUser from "../controllers/User/loginUser.js";
 import resetPassword from "../controllers/User/resetPassword.js";
 import logout from "../controllers/User/logout.js";
 import { getAllUsers, getASingleUser } from "../controllers/User/getUser.js";
+import { deleteUser } from "../controllers/User/deleteUser.js";
 
 const router = Router();
 
@@ -22,7 +22,7 @@ router.post("/reset-password/:id", resetPassword);
 router.get("/", getAllUsers);
 router.get("/:id", getASingleUser);
 // router.put("/:id", EditSchool);
-// router.delete("/:id", deleteSchool);
+router.delete("/:id", deleteUser);
 router.post("/logout", logout);
 // router.put("/create-profile/:id", createProfile);
 
