@@ -1,36 +1,42 @@
-import School from "../../models/School.js";
-import schoolSchema from "../../Validation/school/registerSchool.js";
 import bcrypt from "bcrypt";
 import { generateOtp } from "../../utils/GenerateOtp.js";
 import Otp from "../../models/Otp.js";
 import { sendMail } from "../../utils/Email.js";
 import { sanitizeUser } from "../../utils/SanitizeUser.js";
 import { generateToken } from "../../utils/GenerateToken.js";
+import RegisterSchema from "../../Validation/User/registerValidatior.js";
+import User from "../../models/User.model.js";
+import mongoose from "mongoose";
+import expressAsyncHandler from "express-async-handler";
 
-export const registerSchool = async (req, res) => {
+export const registerUser = expressAsyncHandler(async (req, res, next) => {
+  const session = await mongoose.startSession();
+  session.startTransaction();
   try {
-    const school = await schoolSchema.validateAsync(req.body);
-    const { email, password, name } = school;
+    const user = await RegisterSchema.validateAsync(req.body);
+    const { email, password, name, role } = user;
 
-    const existingUser = await School.findOne({ email });
+    const existingUser = await User.findOne({ email });
     if (existingUser) {
+      await session.abortTransaction();
       return res
         .status(400)
-        .json({ message: "School already exists,Kindly login" });
+        .json({ message: `Email ${email} already exists,Kindly login` });
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    const newSchool = new School({
+    const newUser = new User({
       name,
       email,
+      role,
       password: hashedPassword,
     });
-    const savedSchool = await newSchool.save();
+    const savedUser = await newUser.save();
     const otp = generateOtp();
     const hashedOtp = await bcrypt.hash(otp, 10);
     const newOtp = new Otp({
-      user: { id: savedSchool._id, userType: "School" },
+      user: { id: savedUser._id, userType: role },
       otp: hashedOtp,
       expiresAt: Date.now() + parseInt(process.env.OTP_EXPIRATION_TIME),
     });
@@ -42,7 +48,7 @@ export const registerSchool = async (req, res) => {
       "OTP Verification Code",
       `Your OTP is: <b>${otp}</b>`
     );
-    const secureInfo = sanitizeUser(savedSchool);
+    const secureInfo = sanitizeUser(savedUser);
     const token = generateToken(secureInfo);
     const cookieExpirationDays = parseInt(process.env.COOKIE_EXPIRATION_DAYS);
     if (isNaN(cookieExpirationDays)) {
@@ -56,11 +62,16 @@ export const registerSchool = async (req, res) => {
       secure: process.env.PRODUCTION === "true",
     });
 
+    await session.commitTransaction();
+
     return res.status(201).json({
       message: "Registration successful. Please verify your email.",
-      school: sanitizeUser(savedSchool),
+      user: sanitizeUser(savedUser),
     });
   } catch (error) {
-    return res.status(500).json({ message: error.message });
+    await session.abortTransaction();
+    throw error;
+  } finally {
+    session.endSession();
   }
-};
+});
