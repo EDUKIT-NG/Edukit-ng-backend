@@ -1,6 +1,12 @@
-# Project Setup Instructions
+# Edukit NIgeria
 
-Welcome to the Project! Follow these instructions to set up the development environment
+## Description
+
+Edukit Nigeria is an educational platform designed to provide resources and tools for students and educators. It aims to enhance learning experiences through interactive content and community engagement.
+
+## Project Setup Instructions
+
+Follow these instructions to set up the development environment
 
 ## Clone the Project
 
