@@ -1,0 +1,39 @@
+API Structure:
+
+Use a consistent API structure throughout the application
+Use API endpoints that are descriptive and follow a consistent pattern
+Use HTTP methods that are appropriate for the action being performed (e.g., POST for creating a new resource, PUT for updating an existing resource)
+Use payload validation to ensure that the data being sent is valid and consistent
+Use error handling to handle unexpected errors and provide useful error messages
+Best Practices:
+
+Use authentication and authorization to secure API endpoints
+Use rate limiting to prevent abuse of API endpoints
+Use caching to improve performance and reduce the load on the server
+Use logging and monitoring to track API usage and identify issues
+Use testing to ensure that API endpoints are working correctly and catch any bugs or issues
+API Documentation:
+
+Use API documentation tools like Swagger or API Blueprint to document API endpoints
+Include information about API endpoints, including the endpoint URL, HTTP method, payload, and response
+Include examples of API requests and responses
+Use clear and concise language to describe API endpoints and their usage
+
+Suggestions for improvement:
+
+Refactor code duplication: Refactor the code to eliminate duplication and make it more maintainable.
+Add comments: Add comments to explain the purpose and behavior of each API endpoint.
+Standardize API endpoint naming: Standardize the API endpoint naming conventions to make it easier to understand the purpose of each endpoint.
+Create API documentation: Create API documentation to explain the purpose and behavior of each API endpoint.
+Address security vulnerabilities: Address potential security vulnerabilities, such as storing passwords in plain text, to make the API more secure.
+
+Best practices:
+
+Follow the single responsibility principle: Each API endpoint should have a single responsibility and should not be responsible for multiple tasks.
+Use dependency injection: Use dependency injection to make the code more modular and easier to test.
+Use a consistent coding style: Use a consistent coding style throughout the code to make it easier to read and understand.
+Test the code: Test the code thoroughly to ensure that it works as expected and to catch any bugs or issues.
+Use a version control system: Use a version control system, such as Git, to track changes to the code and to collaborate with other developers.
+
+
+URL resources are nouns {/users, /students} and HTTP methods are verbs {GET, POST, PUT, UPDATE, DELETE}

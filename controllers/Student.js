@@ -1,4 +1,3 @@
-import Student from "../models/Student.js";
 import bcrypt from "bcrypt";
 import { sanitizeUser } from "../utils/SanitizeUser.js";
 import { generateToken } from "../utils/GenerateToken.js";
