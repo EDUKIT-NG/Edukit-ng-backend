@@ -1,6 +1,6 @@
 import Joi from "joi";
 
-const schoolSchema = Joi.object({
+const RegisterSchema = Joi.object({
   name: Joi.string()
     .required()
     .messages({ "any.required": "School name required" }),
@@ -13,6 +13,14 @@ const schoolSchema = Joi.object({
     .messages({
       "any.required": "Email required",
       "string.email": "Please provide a valid email address.",
+    }),
+  role: Joi.string()
+    .required()
+    .valid("student", "school", "volunteer", "admin", "partner")
+    .messages({
+      "any.required": "Role required",
+      "any.only":
+        "Role must be one of 'student', 'school', 'volunteer', 'admin', 'partner'",
     }),
   password: Joi.string()
     .required()
@@ -33,4 +41,4 @@ const schoolSchema = Joi.object({
   }),
 });
 
-export default schoolSchema;
+export default RegisterSchema;

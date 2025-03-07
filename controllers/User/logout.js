@@ -1,4 +1,4 @@
-const logoutSchool = (req, res) => {
+const logout = (req, res) => {
   try {
     res.cookie("token", "", {
       sameSite: process.env.PRODUCTION === "true" ? "None" : "Lax",
@@ -12,4 +12,4 @@ const logoutSchool = (req, res) => {
   }
 };
 
-export default logoutSchool;
+export default logout;

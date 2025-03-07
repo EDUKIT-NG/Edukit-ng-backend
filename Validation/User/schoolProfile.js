@@ -8,8 +8,7 @@ const profileSchema = Joi.object({
   address: Joi.string()
     .required()
     .messages({ "any.required": "Adress required" }),
-  moneyReceived: Joi.number(),
-  requestReceived: Joi.number(),
+
   noOfStudents: Joi.number()
     .required()
     .messages({ "any.required": "Adress required" }),

@@ -13,6 +13,10 @@ import { authorizeRoles } from "./middleware/AuthorizeRole.js";
 import { errorHandler } from "./middleware/ResponseHandler.js"
 
 dotenv.config();
+
+import userRouter from "./routes/User.js";
+import errorHandling from "./middleware/errorHandling.js";
+
 const app = express();
 
 const port = process.env.PORT;
@@ -104,15 +108,13 @@ app.use(
   })
 );
 
-app.use("/students", studentRouter);
-app.use("/sponsors", sponsorRouter);
+app.use("/api/user", userRouter);
 
 app.get("/", (req, res) => {
   res.send("Running");
 });
 
-app.use(errorHandler);
-
+app.use(errorHandling);
 app.listen(port, () => {
   logger.info(`Server is running on port ${port}`);
 });
