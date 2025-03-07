@@ -1,4 +1,3 @@
-import Sponsor from "../models/Sponsor.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { sanitizeUser } from "../utils/SanitizeUser.js";

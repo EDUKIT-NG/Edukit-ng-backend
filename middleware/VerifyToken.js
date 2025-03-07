@@ -1,20 +1,17 @@
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 import Logger from "../utils/Logger.js";
-import Student from "../models/Student.js";
-import Sponsor from "../models/Sponsor.js";
 import Donor from "../models/Donor.js";
-import School from "../models/School.js";
 import { sanitizeUser } from "../utils/SanitizeUser.js";
 
 dotenv.config();
 const logger = Logger.getLogger("TokenMiddleware");
 
 const users = {
-  student: Student,
-  sponsor: Sponsor,
+  // student: Student,
+  // sponsor: Sponsor,
   donor: Donor,
-  school: School,
+  // school: School,
 }
 
 export const verifyToken = async (req, res, next) => {
