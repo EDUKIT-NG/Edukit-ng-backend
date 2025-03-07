@@ -10,7 +10,8 @@ import studentRouter from "./routes/Student.js";
 import sponsorRouter from "./routes/Sponsor.js";
 import { verifyToken } from "./middleware/VerifyToken.js";
 import { authorizeRoles } from "./middleware/AuthorizeRole.js";
-import { errorHandler } from "./middleware/ResponseHandler.js"
+import { errorHandler } from "./middleware/ResponseHandler.js";
+import morgan from "morgan";
 
 dotenv.config();
 const app = express();
@@ -18,13 +19,14 @@ const app = express();
 const port = process.env.PORT;
 const db = process.env.MONGO_URI;
 
+const morganFormat = ':method :url :status:'
 const logger = Logger.createLogger("Main");
 
 // connect to database
 mongoose
   .connect(db, {})
   .then(() => {
-    logger.info('Connected to database.');
+    logger.info("Connected to database.");
   })
   .catch((error) => {
     logger.error(`Error connecting to database: ${error.message}`);
@@ -34,7 +36,16 @@ mongoose
 app.use(express.json());
 app.use(cookieParser());
 app.use(httpLogger);
-// app.use(morgan("dev"));
+app.use(morgan(morganFormat, {
+  stream: {
+    write: (message) => {
+      const logObject = {
+        method: message.split(" ")[0],
+      };
+      logger.info(JSON.stringify(logObject))
+    }
+  }
+}));
 
 app.use(
   session({

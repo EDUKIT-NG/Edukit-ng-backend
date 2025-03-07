@@ -11,7 +11,6 @@ import {
   resetPassword,
   loginStudent,
   registerStudent,
-  loginStudent,
 } from "../controllers/Student.js";
 import { isOwner } from "../middleware/IsOwner.js";
 
