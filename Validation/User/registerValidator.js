@@ -4,6 +4,7 @@ const RegisterSchema = Joi.object({
   name: Joi.string()
     .required()
     .messages({ "any.required": "School name required" }),
+
   email: Joi.string()
     .required()
     .email({

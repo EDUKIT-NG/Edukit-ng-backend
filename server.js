@@ -23,7 +23,7 @@ const app = express();
 const port = process.env.PORT;
 const db = process.env.MONGO_URI;
 
-const morganFormat = ':method :url :status:'
+const morganFormat = ":method :url :status:";
 const logger = Logger.createLogger("Main");
 
 // connect to database
@@ -40,16 +40,18 @@ mongoose
 app.use(express.json());
 app.use(cookieParser());
 app.use(httpLogger);
-app.use(morgan(morganFormat, {
-  stream: {
-    write: (message) => {
-      const logObject = {
-        method: message.split(" ")[0],
-      };
-      logger.info(JSON.stringify(logObject))
-    }
-  }
-}));
+app.use(
+  morgan(morganFormat, {
+    stream: {
+      write: (message) => {
+        const logObject = {
+          method: message.split(" ")[0],
+        };
+        logger.info(JSON.stringify(logObject));
+      },
+    },
+  })
+);
 
 app.use(
   session({
@@ -57,7 +59,7 @@ app.use(
     resave: false,
     saveUninitialized: true,
     cookie: {
-      maxAge: 60 * 60 * 1000,
+      maxAge: 60 * 60 * 1000 * 24,
     },
   })
 );

@@ -4,7 +4,7 @@ import Otp from "../../models/Otp.js";
 import { sendMail } from "../../utils/Email.js";
 import { sanitizeUser } from "../../utils/SanitizeUser.js";
 import { generateToken } from "../../utils/GenerateToken.js";
-import RegisterSchema from "../../Validation/User/registerValidatior.js";
+import RegisterSchema from "../../Validation/User/registerValidator.js";
 import User from "../../models/User.model.js";
 import mongoose from "mongoose";
 import expressAsyncHandler from "express-async-handler";
