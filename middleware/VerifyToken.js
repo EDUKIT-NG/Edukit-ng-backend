@@ -9,12 +9,14 @@ const logger = Logger.getLogger("TokenMiddleware");
 
 const users = {
   user: User,
+  default: User,
 };
 
 export const verifyToken = async (req, res, next) => {
   try {
     // extracts the token from request cookies
     const { token } = req.cookies;
+    console.log(token);
 
     // return 401 if token is not there
     if (!token) {
@@ -27,7 +29,7 @@ export const verifyToken = async (req, res, next) => {
     const decodedInfo = jwt.verify(token, process.env.SECRET_KEY);
 
     // Fetch user details
-    const User = users[decodedInfo.role];
+    const User = users[decodedInfo.role || users.default];
     const user = sanitizeUser(await User.findById(decodedInfo._id));
     logger.info(`User: ${JSON.stringify(user, null, 2)}`);
 
