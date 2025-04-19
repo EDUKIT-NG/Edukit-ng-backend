@@ -56,8 +56,8 @@ export const registerUser = expressAsyncHandler(async (req, res, next) => {
     );
 
     const secureInfo = sanitizeUser(savedUser);
-    const token = generateToken(secureInfo);
-    console.log(token)
+    const token = generateToken(savedUser._id);
+    console.log(token);
     const cookieExpirationDays = parseInt(process.env.COOKIE_EXPIRATION_DAYS);
     if (isNaN(cookieExpirationDays)) {
       throw new Error("COOKIE_EXPIRATION_DAYS must be a valid number.");

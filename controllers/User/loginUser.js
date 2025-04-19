@@ -14,7 +14,8 @@ const loginUser = expressAsyncHandler(async (req, res) => {
     const result = await logInSchema.validateAsync(req.body);
     const { username, email, password } = result;
 
-    const existingUser = await User.findOne({ $or: [{ username }, { email }] });
+    const existingUser = await User.findOne({ email });
+    console.log("existing", existingUser);
 
     if (!existingUser) {
       await session.abortTransaction();
@@ -24,6 +25,8 @@ const loginUser = expressAsyncHandler(async (req, res) => {
     }
 
     const hashedPassword = existingUser.password;
+    console.log(hashedPassword);
+
     if (!hashedPassword) {
       await session.abortTransaction();
       res.status(404).json({ message: "User password not found " });
@@ -32,6 +35,8 @@ const loginUser = expressAsyncHandler(async (req, res) => {
 
     const isMatch = await bcrypt.compare(password, hashedPassword);
     if (!isMatch) {
+      console.log(password);
+
       await session.abortTransaction();
       return res
         .status(400)
