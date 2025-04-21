@@ -35,9 +35,7 @@ const RegisterSchema = Joi.object({
     "any.required": "Phone Number required",
   }),
 
-  address: Joi.string().required().messages({
-    "any.required": "Address required",
-  }),
+  address: Joi.string().messages({}),
 
   password: Joi.string()
     .required()
