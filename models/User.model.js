@@ -7,9 +7,9 @@ const userSchema = new mongoose.Schema(
       required: true,
     },
 
-    username: {
+    ContactPerson: {
       type: String,
-      required: true,
+
       unique: true,
     },
 
