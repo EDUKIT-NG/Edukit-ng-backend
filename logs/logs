@@ -223,3 +223,53 @@
 [2025-04-14T19:20:28.120Z] [ERROR] [App]: GET /favicon.ico 401 15.944ms 48bytes - Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36 ::1
 [2025-04-14T19:20:36.686Z] [ERROR] [App]: Error verifying token: Cannot read properties of undefined (reading 'findById')
 [2025-04-14T19:20:36.690Z] [ERROR] [App]: POST /api/user/67fd5902ffe29b80ce151d5c 500 8.467ms 36bytes - PostmanRuntime/7.43.3 ::1
+[2025-04-15T18:24:46.489Z] [ERROR] [App]: Error verifying token: Cannot read properties of undefined (reading 'findById')
+[2025-04-15T18:24:46.517Z] [ERROR] [App]: DELETE /67fd5902ffe29b80ce151d5c 500 45.016ms 36bytes - PostmanRuntime/7.43.3 ::1
+[2025-04-15T18:28:10.830Z] [ERROR] [App]: Error verifying token: Cannot read properties of undefined (reading 'findById')
+[2025-04-15T18:28:10.851Z] [ERROR] [App]: DELETE /67fd5902ffe29b80ce151d5c 500 36.511ms 36bytes - PostmanRuntime/7.43.3 ::1
+[2025-04-15T18:43:03.462Z] [ERROR] [App]: Error verifying token: Cannot read properties of undefined (reading 'findById')
+[2025-04-15T18:43:03.489Z] [ERROR] [App]: DELETE /67fd5902ffe29b80ce151d5c 500 44.601ms 36bytes - PostmanRuntime/7.43.3 ::1
+[2025-04-15T18:44:14.842Z] [ERROR] [App]: Error verifying token: Cannot read properties of undefined (reading 'findById')
+[2025-04-15T18:44:14.863Z] [ERROR] [App]: DELETE /67fd5902ffe29b80ce151d5c 500 34.110ms 36bytes - PostmanRuntime/7.43.3 ::1
+[2025-04-15T18:44:48.927Z] [ERROR] [App]: Error verifying token: Cannot read properties of undefined (reading 'findById')
+[2025-04-15T18:44:48.949Z] [ERROR] [App]: GET /67fd5902ffe29b80ce151d5c 500 38.296ms 36bytes - PostmanRuntime/7.43.3 ::1
+[2025-04-15T18:45:18.323Z] [ERROR] [App]: POST /api/user/register 500 20.490ms 47bytes - PostmanRuntime/7.43.3 ::1
+[2025-04-15T18:46:17.450Z] [ERROR] [App]: POST /api/user/register 500 32.996ms 40bytes - PostmanRuntime/7.43.3 ::1
+[2025-04-15T18:46:43.437Z] [ERROR] [App]: POST /api/user/register 500 11.391ms 44bytes - PostmanRuntime/7.43.3 ::1
+[2025-04-15T18:47:14.650Z] [ERROR] [App]: POST /api/user/register 500 8.729ms 41bytes - PostmanRuntime/7.43.3 ::1
+[2025-04-15T18:47:40.097Z] [ERROR] [App]: POST /api/user/register 500 7.832ms 40bytes - PostmanRuntime/7.43.3 ::1
+[2025-04-15T18:47:59.104Z] [ERROR] [App]: POST /api/user/register 500 10.309ms 44bytes - PostmanRuntime/7.43.3 ::1
+[2025-04-15T18:48:32.027Z] [ERROR] [App]: POST /api/user/register 500 6.175ms 55bytes - PostmanRuntime/7.43.3 ::1
+[2025-04-15T18:48:58.129Z] [ERROR] [App]: POST /api/user/register 400 283.009ms 72bytes - PostmanRuntime/7.43.3 ::1
+[2025-04-15T18:50:06.307Z] [ERROR] [App]: POST /api/user/login 400 405.894ms 59bytes - PostmanRuntime/7.43.3 ::1
+[2025-04-15T18:50:23.203Z] [ERROR] [App]: POST /api/user/login 400 302.789ms 59bytes - PostmanRuntime/7.43.3 ::1
+[2025-04-15T18:50:37.594Z] [ERROR] [App]: POST /api/user/login 400 294.938ms 59bytes - PostmanRuntime/7.43.3 ::1
+[2025-04-15T18:52:30.892Z] [ERROR] [App]: POST /api/user/register 500 379.274ms 133bytes - PostmanRuntime/7.43.3 ::1
+[2025-04-15T18:53:23.250Z] [ERROR] [App]: POST /api/user/register 500 11.820ms 57bytes - PostmanRuntime/7.43.3 ::1
+[2025-04-15T18:53:38.345Z] [ERROR] [App]: POST /api/user/register 500 5.892ms 51bytes - PostmanRuntime/7.43.3 ::1
+[2025-04-15T18:58:34.387Z] [ERROR] [App]: Error verifying token: Cannot read properties of undefined (reading 'findById')
+[2025-04-15T18:58:34.400Z] [ERROR] [App]: POST /api/user/verify/67feabfb6990469a84d571d4 500 24.136ms 36bytes - PostmanRuntime/7.43.3 ::1
+[2025-04-15T18:59:35.465Z] [ERROR] [App]: Error verifying token: Cannot read properties of undefined (reading 'findById')
+[2025-04-15T18:59:35.469Z] [ERROR] [App]: POST /api/user/verify/67feabfb6990469a84d571d4 500 10.378ms 36bytes - PostmanRuntime/7.43.3 ::1
+[2025-04-15T19:01:00.253Z] [ERROR] [App]: Error verifying token: Cannot read properties of undefined (reading 'findById')
+[2025-04-15T19:01:00.260Z] [ERROR] [App]: POST /api/user/verify/67feabfb6990469a84d571d4 500 12.424ms 36bytes - PostmanRuntime/7.43.3 ::1
+[2025-04-15T19:01:40.339Z] [ERROR] [App]: Error verifying token: Cannot read properties of undefined (reading 'findById')
+[2025-04-15T19:01:40.343Z] [ERROR] [App]: POST /api/user/verify/67feabfb6990469a84d571d4 500 8.574ms 36bytes - PostmanRuntime/7.43.3 ::1
+[2025-04-15T19:02:04.379Z] [ERROR] [App]: Error verifying token: Cannot read properties of undefined (reading 'findById')
+[2025-04-15T19:02:04.385Z] [ERROR] [App]: POST /api/user/verify/67feabfb6990469a84d571d4 500 9.117ms 36bytes - PostmanRuntime/7.43.3 ::1
+[2025-04-15T19:08:48.633Z] [ERROR] [App]: Error verifying token: Cannot read properties of undefined (reading 'findById')
+[2025-04-15T19:08:48.638Z] [ERROR] [App]: POST /api/user/verify/67feabfb6990469a84d571d4 500 9.376ms 36bytes - PostmanRuntime/7.43.3 ::1
+[2025-04-15T19:11:08.812Z] [ERROR] [App]: Error verifying token: Cannot read properties of undefined (reading 'findById')
+[2025-04-15T19:11:08.833Z] [ERROR] [App]: POST /api/user/verify/67feabfb6990469a84d571d4 500 38.454ms 36bytes - PostmanRuntime/7.43.3 ::1
+[2025-04-15T19:21:06.009Z] [ERROR] [App]: Error verifying token: Cannot read properties of undefined (reading 'findById')
+[2025-04-15T19:21:06.023Z] [ERROR] [App]: DELETE /67feabfb6990469a84d571d4 500 172.167ms 36bytes - PostmanRuntime/7.43.3 ::1
+[2025-04-15T19:21:47.736Z] [ERROR] [App]: Error verifying token: Cannot read properties of undefined (reading 'findById')
+[2025-04-15T19:21:47.747Z] [ERROR] [App]: DELETE /api/user/67feabfb6990469a84d571d4 500 17.822ms 36bytes - PostmanRuntime/7.43.3 ::1
+[2025-04-15T19:23:08.256Z] [ERROR] [App]: Error verifying token: Cannot read properties of undefined (reading 'findById')
+[2025-04-15T19:23:08.301Z] [ERROR] [App]: DELETE /api/user/67feabfb6990469a84d571d4 500 71.700ms 36bytes - PostmanRuntime/7.43.3 ::1
+[2025-04-15T19:23:17.171Z] [ERROR] [App]: Error verifying token: Cannot read properties of undefined (reading 'findById')
+[2025-04-15T19:23:17.176Z] [ERROR] [App]: GET /api/user/67feabfb6990469a84d571d4 500 224.759ms 36bytes - PostmanRuntime/7.43.3 ::1
+[2025-04-15T19:26:14.685Z] [ERROR] [App]: Error verifying token: Cannot read properties of undefined (reading 'findById')
+[2025-04-15T19:26:14.688Z] [ERROR] [App]: GET /api/user/students/67feabfb6990469a84d571d4 500 58.125ms 36bytes - PostmanRuntime/7.43.3 ::1
+[2025-04-15T19:28:17.147Z] [ERROR] [App]: Error verifying token: Cannot read properties of undefined (reading 'findById')
+[2025-04-15T19:28:17.162Z] [ERROR] [App]: GET /api/user/ 500 36.728ms 36bytes - PostmanRuntime/7.43.3 ::1
