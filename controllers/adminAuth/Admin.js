@@ -172,7 +172,7 @@ export const resendOtp = asyncHandler(async (req, res) => {
 
   const existingAdmin = await Admin.findById(admin);
   if (!existingAdmin) {
-    throw new Error("User not found.");
+    throw new Error("Admin not found.");
   }
 
   await Otp.deleteMany({ admin: existingAdmin._id });
@@ -185,6 +185,8 @@ export const resendOtp = asyncHandler(async (req, res) => {
     otp: hashOtp,
     expiresAt: Date.now() + parseInt(process.env.OTP_EXPIRATION_TIME),
   });
+
+  // saves the new OTP to the database
   await newOtp.save();
 
   await sendMail(

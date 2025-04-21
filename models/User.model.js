@@ -9,7 +9,6 @@ const userSchema = new mongoose.Schema(
 
     ContactPerson: {
       type: String,
-
       unique: true,
     },
 
@@ -25,7 +24,7 @@ const userSchema = new mongoose.Schema(
 
     role: {
       type: String,
-      enum: ["student", "school", "volunteer", "admin", "partner"],
+      enum: ["student", "volunteer", "donor", "school", "admin", "sponsor"],
       required: true,
     },
 
@@ -49,6 +48,11 @@ const userSchema = new mongoose.Schema(
 
     address: {
       type: String,
+      required: true,
+    },
+
+    noOfStudents: {
+      type: Number,
       required: true,
     },
   },

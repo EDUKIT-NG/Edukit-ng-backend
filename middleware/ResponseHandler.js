@@ -1,7 +1,3 @@
-// import Logger from "../utils/Logger.js";
-
-// const logger = Logger.getLogger("ResponseHandler");
-
 export const responseHandler = (
   res,
   {
@@ -15,7 +11,7 @@ export const responseHandler = (
 ) => {
   // Automatically log errors if they exist
   if (!success && error) {
-    logger.error(`Error: ${message} | Details: ${error}`);
+    console.error(`Error: ${message} | Details: ${error}`);
   }
 
   // Construct the response object
@@ -32,7 +28,7 @@ export const responseHandler = (
 export const errorHandler = (err, req, res, next) => {
   // Prevent undefined req
   const requestUrl = req?.originalUrl || "Unknown Route";
-  logger.error(
+  console.error(
     `Unhandled Error at ${req.originalUrl}: ${err.message}\n${err.stack}`
   );
 

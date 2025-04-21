@@ -8,7 +8,7 @@ const passwordResetTokenSchema = new Schema({
     userType: {
       type: String,
       required: true,
-      enum: ["Student", "Donor", "Volunteer", "School", "Sponsor"],
+      enum: ["student", "volunteer", "donor", "school", "admin", "sponsor"],
     },
   },
   token: { type: String, required: true },
@@ -19,4 +19,5 @@ const PasswordResetToken = mongoose.model(
   "PasswordResetToken",
   passwordResetTokenSchema
 );
+
 export default PasswordResetToken;

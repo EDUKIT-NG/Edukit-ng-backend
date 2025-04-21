@@ -18,11 +18,13 @@ const resetPassword = expressAsyncHandler(async (req, res) => {
       await session.abortTransaction();
       return res.status(404).json({ message: "User not found" });
     }
+
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const newUserPassword = await User.findByIdAndUpdate(id, {
       password: hashedPassword,
     });
+    
     const secureInfo = { id: user._id, userType: user.role };
 
     const token = generateToken(secureInfo);

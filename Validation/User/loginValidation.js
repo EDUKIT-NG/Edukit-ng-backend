@@ -5,7 +5,7 @@ const logInSchema = Joi.object({
 
   email: Joi.string().email({
     minDomainSegments: 2,
-    tlds: { allow: ["com", "net"] },
+    tlds: { allow: ["com", "net", "ng"] },
   }),
 
   password: Joi.string().required().messages({

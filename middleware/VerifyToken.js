@@ -1,11 +1,9 @@
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
-// import Logger from "../utils/Logger.js";
 import User from "../models/User.model.js";
 import { sanitizeUser } from "../utils/SanitizeUser.js";
 
 dotenv.config();
-// const logger = Logger.getLogger("TokenMiddleware");
 
 const users = {
   user: User,
