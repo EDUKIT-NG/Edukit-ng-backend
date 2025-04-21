@@ -3,12 +3,14 @@ import Joi from "joi";
 const RegisterSchema = Joi.object({
   name: Joi.string().required().messages({ "any.required": "Name required" }),
 
-  username: Joi.string().required().messages({
-    "any.required": "Username required",
+  // username: Joi.string().required().messages({
+  //   "any.required": "Username required",
+  //   "string.min": "Username must be at least 4 characters long",
+  //   "string.max": "Username must be at most 10 characters long",
+  // }),
+  ContactPerson: Joi.string().min(3).messages({
     "string.min": "Username must be at least 4 characters long",
-    "string.max": "Username must be at most 10 characters long",
   }),
-
   email: Joi.string()
     .required()
     .email({
