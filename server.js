@@ -103,8 +103,13 @@ app.use((req, res, next) => {
 app.use(
   cors({
     origin: process.env.ORIGIN,
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true,
   })
 );
+
+app.options("*", cors());
 
 app.use("/api/user", userRouter);
 app.use("/api/admin", adminRouter);
