@@ -25,8 +25,8 @@ const userSchema = new mongoose.Schema(
 
     role: {
       type: String,
-      enum: ["student", "school", "volunteer", "admin", "partner"],
-      required: true,
+      enum: ["student", "school", "volunteer", "admin", "partner", ""],
+      default: "",
     },
 
     isVerified: {
@@ -36,7 +36,6 @@ const userSchema = new mongoose.Schema(
 
     phoneNumber: {
       type: String,
-      required: true,
     },
 
     grade: {
