@@ -11,6 +11,7 @@ import morgan from "morgan";
 dotenv.config();
 
 import userRouter from "./routes/User.js";
+import adminRouter from "./routes/Admin.js";
 import errorHandling from "./middleware/errorHandling.js";
 
 const app = express();
@@ -88,6 +89,12 @@ app.use((req, res, next) => {
     if (req.path.startsWith("/schools")) {
       return authorizeRoles("school", "admin")(req, res, next);
     }
+    if (req.path.startsWith("/donors")) {
+      return authorizeRoles("donor", "admin")(req, res, next);
+    }
+    if (req.path.startsWith("/admins")) {
+      return authorizeRoles("admin", "admin")(req, res, next);
+    }
   }
   next();
 });
@@ -100,6 +107,7 @@ app.use(
 );
 
 app.use("/api/user", userRouter);
+app.use("/api/admin", adminRouter);
 
 app.get("/", (req, res) => {
   res.send("Running");
