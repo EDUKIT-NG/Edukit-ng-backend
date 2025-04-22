@@ -31,12 +31,10 @@ export const verifyToken = async (req, res, next) => {
     // Fetch user details
     const UserModel = users[decodedInfo.role];
     const user = sanitizeUser(await User.findById(decodedInfo.id));
-    // logger.info(`User: ${JSON.stringify(user, null, 2)}`);
     console.log(`User: ${JSON.stringify(user, null, 2)}`);
 
     // If user does not exist or is soft deleted
     if (!user || user.isDeleted) {
-      // logger.warn(`Invalid token used by ${req.ip}.\nToken: ${token}`);
       console.log(`Invalid token used by ${req.ip}.\nToken: ${token}`);
 
       return res.status(401).json({ message: "Unauthorized: User not found" });
@@ -48,7 +46,6 @@ export const verifyToken = async (req, res, next) => {
 
     next();
   } catch (error) {
-    // logger.error(`Error verifying token: ${error.message}`);
     console.log(`Error verifying token: ${error.message}`);
 
     if (error instanceof jwt.TokenExpiredError) {

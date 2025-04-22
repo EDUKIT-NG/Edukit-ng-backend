@@ -1,6 +1,3 @@
-// import Logger from "./Logger.js";
-
-// const logger = Logger.getLogger("LoginLimiter");
 const failedLoginAttempts = new Map();
 
 // Progressive lockout settings
@@ -30,7 +27,7 @@ export const trackFailedLogin = (email) => {
   }
 
   failedLoginAttempts.set(email, attempts);
-  logger.info(
+  console.info(
     `Failed login attempts: ${JSON.stringify(
       Array.from(failedLoginAttempts),
       null,
@@ -45,7 +42,7 @@ export const trackFailedLogin = (email) => {
 
 // Reset failed attempts on successful login
 export const resetFailedLogin = (email) => {
-  logger.info(
+  console.info(
     `Failed login attempts: ${JSON.stringify(
       Array.from(failedLoginAttempts),
       null,

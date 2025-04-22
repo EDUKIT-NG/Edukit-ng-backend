@@ -53,7 +53,6 @@ const userSchema = new mongoose.Schema(
 
     noOfStudents: {
       type: Number,
-      required: true,
     },
   },
   {
