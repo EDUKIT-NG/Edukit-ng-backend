@@ -24,6 +24,7 @@ const userSchema = new mongoose.Schema(
 
     role: {
       type: String,
+      default: "",
       enum: ["student", "volunteer", "donor", "school", "admin", "sponsor"],
       required: true,
     },
@@ -35,7 +36,6 @@ const userSchema = new mongoose.Schema(
 
     phoneNumber: {
       type: String,
-      required: true,
     },
 
     grade: {
@@ -48,7 +48,6 @@ const userSchema = new mongoose.Schema(
 
     address: {
       type: String,
-      required: true,
     },
 
     noOfStudents: {

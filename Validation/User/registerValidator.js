@@ -19,21 +19,16 @@ const RegisterSchema = Joi.object({
     }),
 
   role: Joi.string()
-    .required()
-    .valid("student", "school", "volunteer", "admin", "partner")
+    .valid("student", "school", "volunteer", "admin", "partner", "")
     .messages({
       "any.required": "Role required",
       "any.only":
         "Role must be one of 'student', 'school', 'volunteer', 'admin', 'partner'",
     }),
 
-  phoneNumber: Joi.string().required().messages({
-    "any.required": "Phone Number required",
-  }),
+  phoneNumber: Joi.string().messages({}),
 
-  address: Joi.string().required().messages({
-    "any.required": "Address required",
-  }),
+  address: Joi.string().messages({}),
 
   password: Joi.string()
     .required()
