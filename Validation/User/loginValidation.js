@@ -1,20 +1,19 @@
 import Joi from "joi";
 
 const logInSchema = Joi.object({
-  username: Joi.string().min(4).max(10),
-
-  email: Joi.string().email({
-    minDomainSegments: 2,
-    tlds: { allow: ["com", "net", "ng"] },
-  }),
+  email: Joi.string()
+    .required()
+    .email({
+      minDomainSegments: 2,
+      tlds: { allow: ["com", "net", "ng"] },
+    })
+    .messages({
+      "any.required": "Email is required",
+    }),
 
   password: Joi.string().required().messages({
     "any.required": "Password is required",
   }),
-})
-  .xor("username", "email")
-  .messages({
-    "any.required": "Username or email is required",
-  });
+});
 
 export default logInSchema;
