@@ -8,8 +8,8 @@ const otpSchema = new Schema(
       id: { type: Schema.Types.ObjectId, required: true, refPath: "userType" },
       userType: {
         type: String,
-        required: true,
-        enum: ["student", "school", "volunteer", "admin", "partner"],
+
+        enum: ["student", "school", "volunteer", "admin", "partner", ""],
       },
     },
     otp: { type: String, required: true },
