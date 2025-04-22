@@ -12,9 +12,9 @@ const loginUser = expressAsyncHandler(async (req, res) => {
 
   try {
     const result = await logInSchema.validateAsync(req.body);
-    const { username, email, password } = result;
+    const { email, password } = result;
 
-    const existingUser = await User.findOne({ $or: [{ email }, { username }] });
+    const existingUser = await User.findOne({ email });
 
     if (!existingUser) {
       await session.abortTransaction();
