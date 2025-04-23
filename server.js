@@ -102,7 +102,7 @@ app.use((req, res, next) => {
 // allow all API calls coming from the frontend to get to the server
 app.use(
   cors({
-    origin: process.env.ORIGIN,
+    origin: process.env.ORIGIN.split(','),
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true,
