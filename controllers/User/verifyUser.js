@@ -9,7 +9,8 @@ export const verifyOtp = expressAsyncHandler(async (req, res) => {
   const session = await mongoose.startSession();
   session.startTransaction();
   try {
-    const { id, otp } = req.body;
+    const { otp } = req.body;
+    const id = req.params.id;
 
     const user = await User.findById(id);
 

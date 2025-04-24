@@ -10,7 +10,7 @@ const resendOtp = expressAsyncHandler(async (req, res) => {
   const session = await mongoose.startSession();
   session.startTransaction();
   try {
-    const {id} = req.body;
+    const { id } = req.params.id;
     const user = await User.findById(id);
     if (!user) {
       session.abortTransaction();

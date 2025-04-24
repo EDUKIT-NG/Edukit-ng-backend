@@ -14,7 +14,7 @@ export const registerUser = expressAsyncHandler(async (req, res, next) => {
   session.startTransaction();
   try {
     const user = await RegisterSchema.validateAsync(req.body);
-    const { name, email, password, role, phoneNumber, address } = user;
+    const { name, email, role, password, phoneNumber, address,  ContactPerson} = user;
 
     const existingUser = await User.findOne({ email });
     if (existingUser) {
@@ -33,6 +33,7 @@ export const registerUser = expressAsyncHandler(async (req, res, next) => {
       password: hashedPassword,
       phoneNumber,
       address,
+      ContactPerson,
     });
 
     const savedUser = await newUser.save();
