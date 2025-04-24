@@ -1,4 +1,4 @@
-const logout = (req, res) => {
+const logout = async (req, res) => {
   try {
     res.cookie("token", "", {
       sameSite: process.env.PRODUCTION === "true" ? "None" : "Lax",
@@ -6,6 +6,7 @@ const logout = (req, res) => {
       httpOnly: true,
       secure: process.env.PRODUCTION === "true",
     });
+
     return res.status(200).json({ message: "Logout successful" });
   } catch (error) {
     return res.status(500).json({ message: error.message });

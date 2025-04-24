@@ -10,16 +10,16 @@ const resendOtp = expressAsyncHandler(async (req, res) => {
   const session = await mongoose.startSession();
   session.startTransaction();
   try {
-    const id = req.user._id;
+    const {id} = req.body;
     const user = await User.findById(id);
     if (!user) {
       session.abortTransaction();
-      return res.status(400).json({ message: "User not found" });
+      return res.status(404).json({ message: "User not found" });
     }
 
     const otp = await Otp.findOne({ "user.id": id });
     if (otp) {
-      await Otp.findByIdAndDelete(otp._id);
+      await Otp.findByIdAndDelete(otp.id);
     }
 
     let new_otp = generateOtp();
@@ -37,6 +37,7 @@ const resendOtp = expressAsyncHandler(async (req, res) => {
       "OTP Verification Code",
       `Your OTP is: <b>${new_otp}</b>`
     );
+
     await session.commitTransaction();
     return res.status(200).json("Code sent successfully");
   } catch (error) {
