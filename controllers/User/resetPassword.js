@@ -2,51 +2,120 @@ import expressAsyncHandler from "express-async-handler";
 import bcrypt from "bcrypt";
 import { generateToken } from "../../utils/GenerateToken.js";
 import User from "../../models/User.model.js";
-import mongoose from "mongoose";
-import passwordResetSchema from "../../Validation/User/passwordValidation.js";
+import PasswordResetToken from "../../models/PasswordResetToken.js";
+import { sanitizeUser } from "../../utils/SanitizeUser.js";
+import { sendMail } from "../../utils/Email.js";
 
-const resetPassword = expressAsyncHandler(async (req, res) => {
-  const session = await mongoose.startSession();
-  session.startTransaction();
+export const forgotPassword = expressAsyncHandler(async (req, res) => {
+  let newToken;
+  const { email } = req.body;
+
   try {
-    const id = req.user._id;
-    const result = await passwordResetSchema.validateAsync(req.body);
-    const { password } = result;
+    // checks if user provided email exists or not
+    const isExistingUser = await User.findOne({ email });
 
-    const user = await User.findById(id);
-    if (!user) {
-      await session.abortTransaction();
-      return res.status(404).json({ message: "User not found" });
+    // if email does not exists return a 404 response
+    if (!isExistingUser) {
+      return res
+        .status(404)
+        .json({ message: "Provided email does not exists" });
     }
 
-    const hashedPassword = await bcrypt.hash(password, 10);
+    await PasswordResetToken.deleteMany({ user: isExistingUser._id });
 
-    const newUserPassword = await User.findByIdAndUpdate(id, {
-      password: hashedPassword,
+    // if user exists, generate a password reset token
+    const passwordResetToken = generateToken(
+      sanitizeUser(isExistingUser),
+      true
+    );
+
+    // hashes the token
+    const hashedToken = await bcrypt.hash(passwordResetToken, 10);
+
+    // saves hashed token in passwordResetToken collection
+    newToken = new PasswordResetToken({
+      user: {
+        id: isExistingUser._id,
+        userType: isExistingUser.role,
+      },
+      token: hashedToken,
+      expiresAt: Date.now() + parseInt(process.env.OTP_EXPIRATION_TIME),
     });
-    
-    const secureInfo = { id: user._id, userType: user.role };
 
-    const token = generateToken(secureInfo);
-    const cookieExpirationDays = parseInt(process.env.COOKIE_EXPIRATION_DAYS);
-    if (isNaN(cookieExpirationDays)) {
-      throw new Error("COOKIE_EXPIRATION_DAYS must be a valid number.");
-    }
+    await newToken.save();
 
-    res.cookie("token", token, {
-      sameSite: process.env.PRODUCTION === "true" ? "None" : "Lax",
-      maxAge: cookieExpirationDays * 24 * 60 * 60 * 1000,
-      httpOnly: true,
-      secure: process.env.PRODUCTION === "true",
-    });
-    await session.commitTransaction();
-    return res.status(200).json({ message: "Password reset successfully" });
+    // sends the password reset link to the user's email
+    await sendMail(
+      isExistingUser.email,
+      "Password reset link",
+      `<p>Dear ${isExistingUser.email},
+                We received a request to reset the password for your account. please use the following link to reset your password:</p>
+                <p><a href=${process.env.ORIGIN}/reset-password/${isExistingUser._id}/${passwordResetToken} target='_blank'>Reset Password</a></p>
+                <p>This link is valid for a limited time. If you did not request a password reset, please ignore this email. Your account security is important to us.
+
+                Thank you,
+                Edukit Team</p>`
+    );
+
+    res
+      .status(200)
+      .json({ message: `Password reset link sent to ${isExistingUser.email}` });
   } catch (error) {
-    await session.abortTransaction();
-    throw error;
-  } finally {
-    session.endSession();
+    res.status(500).json({
+      message: "Error occurred while sending password reset email.",
+      error,
+    });
   }
 });
 
-export default resetPassword;
+export const resetPassword = expressAsyncHandler(async (req, res) => {
+  const { id, token, password } = req.body;
+
+  try {
+    // checks if user exists or not
+    const isExistingUser = await User.findById(id);
+
+    // if user does not exists then returns a 404 response
+    if (!isExistingUser) {
+      return res.status(404).json({ message: "User does not exists" });
+    }
+
+    // fetches the resetPassword token by the userId
+    const isResetTokenExisting = await PasswordResetToken.findOne({
+      user: isExistingUser._id,
+    });
+
+    // if token does not exists for that userId then returns a 404 response
+    if (!isResetTokenExisting) {
+      return res.status(404).json({ message: "Reset link in not valid" });
+    }
+
+    // if the token has expired then deletes the token and send response accordingly
+    if (isResetTokenExisting.expiresAt < new Date()) {
+      await PasswordResetToken.findByIdAndDelete(isResetTokenExisting._id);
+      return res.status(404).json({ message: "Reset link has been expired." });
+    }
+
+    // if token exists and if not expired and token matches the hash, then reset the user password and deletes the token
+    if (
+      isResetTokenExisting &&
+      isResetTokenExisting.expiresAt > new Date() &&
+      (await bcrypt.compare(token, isResetTokenExisting.token))
+    ) {
+      // deleting the password reset token
+      await PasswordResetToken.findByIdAndDelete(isResetTokenExisting._id);
+
+      // resets the password after hashing it
+      await User.findByIdAndUpdate(isExistingUser._id, {
+        password: await bcrypt.hash(password, 10),
+      });
+      return res.status(200).json({ message: "Password updated successfully" });
+    }
+
+    return res.status(404).json({ message: "Reset link has been expired" });
+  } catch (error) {
+    res.status(500).json({
+      message: "Error occurred while resetting the password, please try again.",
+    });
+  }
+});
