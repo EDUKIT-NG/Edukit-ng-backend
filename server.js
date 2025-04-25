@@ -7,6 +7,8 @@ import dotenv from "dotenv";
 import { authorizeRoles } from "./middleware/AuthorizeRole.js";
 import { errorHandler } from "./middleware/ResponseHandler.js";
 import morgan from "morgan";
+import passport from "passport";
+import("./passport.js");
 
 dotenv.config();
 
@@ -57,6 +59,8 @@ app.use(
     },
   })
 );
+app.use(passport.initialize());
+app.use(passport.session());
 
 // clears the session cookie after 1 hr of inactivity
 app.use((req, res, next) => {
@@ -102,7 +106,7 @@ app.use((req, res, next) => {
 // allow all API calls coming from the frontend to get to the server
 app.use(
   cors({
-    origin: process.env.ORIGIN.split(','),
+    origin: process.env.ORIGIN.split(","),
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true,
@@ -115,7 +119,12 @@ app.use("/api/user", userRouter);
 app.use("/api/admin", adminRouter);
 
 app.get("/", (req, res) => {
+  res.send('<a href="/auth/google">Authenticate with Google</a>');
   res.send("Running");
+});
+
+app.get("/protected", (req, res) => {
+  res.send("Hello");
 });
 
 app.use(errorHandling);

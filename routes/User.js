@@ -2,6 +2,7 @@ import { Router } from "express";
 import { registerUser } from "../controllers/User/registerUser.js";
 import { verifyOtp } from "../controllers/User/verifyUser.js";
 import resendOtp from "../controllers/User/resendOtp.js";
+import passport from "passport";
 import loginUser from "../controllers/User/loginUser.js";
 import {
   forgotPassword,
@@ -26,7 +27,19 @@ router
   .get("/", getAllUsers)
   .get("/:id", getASingleUser)
   .delete("/:id", deleteUser)
-  .post("/logout", logout);
+  .post("/logout", logout)
+  .get(
+    "/auth/google",
+    passport.authenticate("google", { scope: ["profile", "email"] })
+  )
+  .get("/auth/google/callback", passport.authenticate("google"))
+  .get("/api/logout", (req, res) => {
+    req.logout();
+    res.send(req.user);
+  })
+  .get("/api/current_user", (req, res) => {
+    res.send(req.user);
+  });
 // .put("/create-school-profile/:id", createProfileSchool)
 // .put("/create-student-profile/:id", createStudentProfile);
 

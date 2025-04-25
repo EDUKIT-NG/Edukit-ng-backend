@@ -53,6 +53,10 @@ const userSchema = new mongoose.Schema(
     noOfStudents: {
       type: Number,
     },
+
+    googleId: {
+      type: String,
+    },
   },
   {
     timestamps: true,
