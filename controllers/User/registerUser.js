@@ -1,6 +1,4 @@
 import bcrypt from "bcrypt";
-import { generateOtp } from "../../utils/GenerateOtp.js";
-import Otp from "../../models/Otp.js";
 import { sendMail } from "../../utils/Email.js";
 import { sanitizeUser } from "../../utils/SanitizeUser.js";
 import { generateToken } from "../../utils/GenerateToken.js";
@@ -14,14 +12,15 @@ export const registerUser = expressAsyncHandler(async (req, res, next) => {
   session.startTransaction();
   try {
     const user = await RegisterSchema.validateAsync(req.body);
-    const { name, email, role, password, phoneNumber, address,  ContactPerson} = user;
+    const { name, email, role, password, phoneNumber, address, ContactPerson } =
+      user;
 
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       await session.abortTransaction();
       return res
         .status(400)
-        .json({ message: `Email ${email} already exists,Kindly login` });
+        .json({ message: `Email ${email} already exists,Kindly login.` });
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -34,24 +33,18 @@ export const registerUser = expressAsyncHandler(async (req, res, next) => {
       phoneNumber,
       address,
       ContactPerson,
+      isVerified: false, // tracks email verification
     });
 
     const savedUser = await newUser.save();
-    const otp = generateOtp();
-    const hashedOtp = await bcrypt.hash(otp, 10);
-    const newOtp = new Otp({
-      user: { id: savedUser._id, userType: role },
-      otp: hashedOtp,
-      expiresAt: Date.now() + parseInt(process.env.OTP_EXPIRATION_TIME),
-    });
 
-    await newOtp.save();
-
-    // send otp to email
+    // Verification link
     await sendMail(
-      email,
-      "OTP Verification Code",
-      `Your OTP is: <b>${otp}</b>`
+      savedUser.email,
+      "Verify your email",
+      `<p>Dear ${savedUser.name}, 
+          Please click on the link to verify your email:</p>
+          <p><a href=${process.env.ORIGIN}/verify-email/${savedUser._id} target='_blank'>Verify Email</a></p>`
     );
 
     const secureInfo = sanitizeUser(savedUser);
@@ -79,5 +72,30 @@ export const registerUser = expressAsyncHandler(async (req, res, next) => {
     throw error;
   } finally {
     session.endSession();
+  }
+});
+
+export const verifyEmail = expressAsyncHandler(async (req, res) => {
+  const id = req.params.id;
+
+  try {
+    const user = await User.findById(id);
+    if (!user) {
+      return res.status(404).json({ message: "User not found." });
+    }
+
+    if (user.isVerified) {
+      return res
+        .status(400)
+        .json({ message: "Email already verified, please login." });
+    }
+
+    await User.findByIdAndUpdate(user._id, { isVerified: true });
+
+    return res.status(200).json({ message: "Email verified successfully." });
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ message: "Error occurred while verifying email." });
   }
 });
