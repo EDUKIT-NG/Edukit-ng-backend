@@ -10,7 +10,7 @@ const resendOtp = expressAsyncHandler(async (req, res) => {
   const session = await mongoose.startSession();
   session.startTransaction();
   try {
-    const { id } = req.params.id;
+    const id = req.params.id;
     const user = await User.findById(id);
     if (!user) {
       session.abortTransaction();
@@ -39,7 +39,7 @@ const resendOtp = expressAsyncHandler(async (req, res) => {
     );
 
     await session.commitTransaction();
-    return res.status(200).json("Code sent successfully");
+    return res.status(200).json("OTP sent successfully");
   } catch (error) {
     await session.abortTransaction();
     throw error;
