@@ -20,12 +20,6 @@ export const verifyOtp = expressAsyncHandler(async (req, res) => {
         message: "User not found, for which the OTP has been generated.",
       });
     }
-    if (user.isVerified) {
-      await session.commitTransaction();
-      return res.status(200).json({
-        message: "User is already verified.",
-      });
-    }
 
     const isOtpExisting = await Otp.findOne({ "user.id": id });
 
@@ -46,22 +40,15 @@ export const verifyOtp = expressAsyncHandler(async (req, res) => {
       return res.status(400).json({ message: "Invalid OTP." });
     }
 
-    const verifiedUser = await User.findByIdAndUpdate(
-      id,
-      { isVerified: true },
-      { new: true }
-    );
-
     await Otp.findByIdAndDelete(isOtpExisting._id);
     await sendMail(
       user.email,
-      "Account Creation",
-      `Your account has been created successfully</b>`
+      "Password Reset OTP",
+      `Your password has been changed successfully</b>`
     );
     await session.commitTransaction();
-    verifiedUser.save();
     return res.status(200).json({
-      message: "Email verified:",
+      message: "OTP verified successfully. You can now reset your password.",
     });
   } catch (error) {
     await session.abortTransaction();
