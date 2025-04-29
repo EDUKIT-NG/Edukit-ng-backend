@@ -48,6 +48,9 @@ COOKIE_EXPIRATION_DAYS=7
 EMAIL=youremail@gmail.com
 PASSWORD=your-email-password
 OTP_EXPIRATION_TIME=120000
+GOOGLE_CLIENT_ID=your-client-id
+GOOGLE_CLIENT_SECRET=your-client-secret
+COOKIE_KEY=your_cookie_key
 ```
 
 ## Start the Server
