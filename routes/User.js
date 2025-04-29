@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { registerUser } from "../controllers/User/registerUser.js";
+import { registerUser, verifyEmail } from "../controllers/User/registerUser.js";
 import { verifyOtp } from "../controllers/User/verifyUser.js";
 import resendOtp from "../controllers/User/resendOtp.js";
 import passport from "passport";
@@ -20,10 +20,11 @@ const router = Router();
 router
   .post("/register", registerUser)
   .post("/login", loginUser)
-  .post("/verify/:id", verifyOtp)
-  .post("/resend-otp/id", resendOtp)
+  .post("/verify-otp/:id", verifyOtp)
+  .post("/resend-otp/:id", resendOtp)
   .post("/forgot-password", forgotPassword)
-  .post("/reset-password", resetPassword)
+  .post("/reset-password/:id", resetPassword)
+  .get("/verify-email/:id", verifyEmail)
   .get("/", getAllUsers)
   .get("/:id", getASingleUser)
   .delete("/:id", deleteUser)
