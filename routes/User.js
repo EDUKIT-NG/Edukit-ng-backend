@@ -11,19 +11,20 @@ import {
 import logout from "../controllers/User/logout.js";
 import { getAllUsers, getASingleUser } from "../controllers/User/getUser.js";
 import { deleteUser } from "../controllers/User/deleteUser.js";
+import { verifyToken } from "../middleware/VerifyToken.js";
+import { refreshToken } from "../utils/RefreshTokenHandler.js";
 // import { createProfileSchool } from "../controllers/User/SchoolProfile.js";
 // import createStudentProfile from "../controllers/User/studentProfile.js";
-// import { verifyToken } from "../middleware/VerifyToken.js";
 
 const router = Router();
 
 router
   .post("/register", registerUser)
   .post("/login", loginUser)
-  .post("/verify-otp/:id", verifyOtp)
-  .post("/resend-otp/:id", resendOtp)
+  .post("/verify-otp", verifyToken, verifyOtp)
+  .post("/resend-otp", verifyToken, resendOtp)
   .post("/forgot-password", forgotPassword)
-  .post("/reset-password/:id", resetPassword)
+  .post("/reset-password", verifyToken, resetPassword)
   .get("/verify-email/:id", verifyEmail)
   .get("/", getAllUsers)
   .get("/:id", getASingleUser)
@@ -40,7 +41,8 @@ router
   })
   .get("/api/current_user", (req, res) => {
     res.send(req.user);
-  });
+  })
+  .post("/api/refresh_token", refreshToken);
 // .put("/create-school-profile/:id", createProfileSchool)
 // .put("/create-student-profile/:id", createStudentProfile);
 
