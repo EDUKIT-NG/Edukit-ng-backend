@@ -10,7 +10,8 @@ export const verifyOtp = expressAsyncHandler(async (req, res) => {
   session.startTransaction();
   try {
     const { otp } = req.body;
-    const id = req.params.id;
+
+    const id = req.user?._id;
 
     const user = await User.findById(id);
 
@@ -22,6 +23,7 @@ export const verifyOtp = expressAsyncHandler(async (req, res) => {
     }
 
     const isOtpExisting = await Otp.findOne({ "user.id": id });
+    console.log("isOtpExisting", isOtpExisting);
 
     if (!isOtpExisting) {
       await session.abortTransaction();
@@ -29,6 +31,9 @@ export const verifyOtp = expressAsyncHandler(async (req, res) => {
     }
 
     if (isOtpExisting.expiresAt < new Date()) {
+      console.log("expires", isOtpExisting.expiresAt);
+      console.log("date", new Date());
+
       await Otp.findByIdAndDelete(isOtpExisting._id);
       await session.abortTransaction();
       return res.status(400).json({ message: "Otp has expired." });

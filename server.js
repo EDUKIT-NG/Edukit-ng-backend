@@ -20,6 +20,15 @@ const app = express();
 
 const port = process.env.PORT;
 const db = process.env.MONGO_URI;
+// allow all API calls coming from the frontend to get to the server
+app.use(
+  cors({
+    origin: process.env.ORIGIN.split(","),
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true,
+  })
+);
 
 const morganFormat = ":method :url :status:";
 
@@ -102,16 +111,6 @@ app.use((req, res, next) => {
   }
   next();
 });
-
-// allow all API calls coming from the frontend to get to the server
-app.use(
-  cors({
-    origin: process.env.ORIGIN.split(","),
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-    credentials: true,
-  })
-);
 
 app.options("*", cors());
 

@@ -12,37 +12,53 @@ const users = {
 
 export const verifyToken = async (req, res, next) => {
   try {
-    console.log("start 2");
+    const authHeader = req.headers.authorization;
 
-    // extracts the token from request cookies
-    const { token } = req.cookies;
-    console.log(token);
-
-    // return 401 if token is not there
-    if (!token) {
-      return res
-        .status(401)
-        .json({ message: "Token missing, please login again." });
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
+      return res.status(401).json({ message: "Kindly login first" });
     }
 
-    // verifies the token
-    const decodedInfo = jwt.verify(token, process.env.SECRET_KEY);
+    // extracts the token from request header
+    const bearerToken = authHeader.split(" ");
 
-    // Fetch user details
-    const UserModel = users[decodedInfo.role];
-    const user = sanitizeUser(await User.findById(decodedInfo.id));
-    console.log(`User: ${JSON.stringify(user, null, 2)}`);
+    const token = bearerToken[1];
 
-    // If user does not exist or is soft deleted
-    if (!user || user.isDeleted) {
-      console.log(`Invalid token used by ${req.ip}.\nToken: ${token}`);
-
-      return res.status(401).json({ message: "Unauthorized: User not found" });
+    // verify token
+    const decode = jwt.verify(token, process.env.SECRET_KEY);
+    const user = await User.findById(decode.id);
+    if (!user) {
+      res.status(403).json({ message: "Invalid token" });
+      return;
     }
-
-    // Attach user details to request object
     req.user = user;
-    console.log("end");
+    // const { token } = req.cookies;
+    // console.log("token", token);
+
+    // // return 401 if token is not there
+    // if (!token) {
+    //   return res
+    //     .status(401)
+    //     .json({ message: "Token missing, please login again." });
+    // }
+
+    // // verifies the token
+    // const decodedInfo = jwt.verify(token, process.env.SECRET_KEY);
+
+    // // Fetch user details
+    // const UserModel = users[decodedInfo.role];
+    // const user = sanitizeUser(await User.findById(decodedInfo.id));
+    // console.log(`User: ${JSON.stringify(user, null, 2)}`);
+
+    // // If user does not exist or is soft deleted
+    // if (!user || user.isDeleted) {
+    //   console.log(`Invalid token used by ${req.ip}.\nToken: ${token}`);
+
+    //   return res.status(401).json({ message: "Unauthorized: User not found" });
+    // }
+
+    // // Attach user details to request object
+    // req.user = user;
+    // console.log("end");
 
     next();
   } catch (error) {

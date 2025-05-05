@@ -1,7 +1,10 @@
 import bcrypt from "bcrypt";
 import { sendMail } from "../../utils/Email.js";
 import { sanitizeUser } from "../../utils/SanitizeUser.js";
-import { generateToken } from "../../utils/GenerateToken.js";
+import {
+  generateAccessToken,
+  generateRefreshToken,
+} from "../../utils/GenerateToken.js";
 import RegisterSchema from "../../Validation/User/registerValidator.js";
 import User from "../../models/User.model.js";
 import mongoose from "mongoose";
@@ -47,25 +50,26 @@ export const registerUser = expressAsyncHandler(async (req, res, next) => {
           <p><a href=${process.env.ORIGIN}/verify-email/${savedUser._id} target='_blank'>Verify Email</a></p>`
     );
 
-    const secureInfo = sanitizeUser(savedUser);
-    const token = generateToken(savedUser._id);
-    const cookieExpirationDays = parseInt(process.env.COOKIE_EXPIRATION_DAYS);
-    if (isNaN(cookieExpirationDays)) {
-      throw new Error("COOKIE_EXPIRATION_DAYS must be a valid number.");
-    }
-    // sends JWT token in the response cookies
-    res.cookie("token", token, {
-      sameSite: process.env.PRODUCTION === "true" ? "None" : "Lax",
-      maxAge: cookieExpirationDays * 24 * 60 * 60 * 1000,
-      httpOnly: true,
-      secure: process.env.PRODUCTION === "true",
-    });
+    const access_token = generateAccessToken(savedUser._id);
+    const refresh_token = generateRefreshToken(savedUser._id);
+    // const cookieExpirationDays = parseInt(process.env.COOKIE_EXPIRATION_DAYS);
+    // if (isNaN(cookieExpirationDays)) {
+    //   throw new Error("COOKIE_EXPIRATION_DAYS must be a valid number.");
+    // }
+    // // sends JWT token in the response cookies
+    // res.cookie("token", token, {
+    //   sameSite: process.env.PRODUCTION === "true" ? "None" : "Lax",
+    //   maxAge: cookieExpirationDays * 24 * 60 * 60 * 1000,
+    //   httpOnly: true,
+    //   secure: process.env.PRODUCTION === "true",
+    // });
 
     await session.commitTransaction();
 
     return res.status(201).json({
       message: "Registration successful. Please verify your email.",
-      user: secureInfo,
+      access_token,
+      refresh_token,
     });
   } catch (error) {
     await session.abortTransaction();

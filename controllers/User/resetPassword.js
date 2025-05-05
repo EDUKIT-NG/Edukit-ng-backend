@@ -19,6 +19,15 @@ export const forgotPassword = expressAsyncHandler(async (req, res) => {
         .status(404)
         .json({ message: "Provided email does not exists." });
     }
+    const existingOtp = await Otp.findOne({
+      user: isExistingUser._id,
+      expiresAt: { $gt: new Date() },
+    });
+    if (existingOtp) {
+      return res.status(400).json({
+        message: "An OTP is already active, use it or wait for expiration.",
+      });
+    }
 
     await Otp.deleteMany({ user: isExistingUser._id });
 
@@ -29,14 +38,18 @@ export const forgotPassword = expressAsyncHandler(async (req, res) => {
     const hashedOtp = await bcrypt.hash(otp, 10);
 
     // saves hashed otp in passwordResetToken collection
+
     newToken = new Otp({
       user: {
         id: isExistingUser._id,
         userType: isExistingUser.role,
       },
       otp: hashedOtp,
-      expiresAt: Date.now() + parseInt(process.env.OTP_EXPIRATION_TIME),
+      expiresAt: new Date(
+        Date.now() + parseInt(process.env.OTP_EXPIRATION_TIME)
+      ),
     });
+    console.log(newToken);
 
     await newToken.save();
 
@@ -59,7 +72,7 @@ export const forgotPassword = expressAsyncHandler(async (req, res) => {
 });
 
 export const resetPassword = expressAsyncHandler(async (req, res) => {
-  const id = req.params.id;
+  const id = req.user?._id;
   const { password } = req.body;
 
   try {

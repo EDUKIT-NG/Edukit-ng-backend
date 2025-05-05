@@ -5,7 +5,7 @@ import { generateOtp } from "../../utils/GenerateOtp.js";
 import Otp from "../../models/Otp.js";
 import dotenv from "dotenv";
 import { sanitizeUser } from "../../utils/SanitizeUser.js";
-import { generateToken } from "../../utils/GenerateToken.js";
+import { generateAccessToken } from "../../utils/GenerateToken.js";
 import mongoose from "mongoose";
 import { sendMail } from "../../utils/Email.js";
 import PasswordResetToken from "../../models/PasswordResetToken.js";
@@ -65,7 +65,7 @@ export const registerAdmin = asyncHandler(async (req, res) => {
   const secureInfo = sanitizeUser(createAdmin);
 
   // generates a token for the user
-  const token = generateToken(secureInfo);
+  const token = generateAccessToken(secureInfo);
 
   // checks is cookie expiration day is a number
   const cookieExpirationDays = parseInt(process.env.COOKIE_EXPIRATION_DAYS);
