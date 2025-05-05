@@ -10,14 +10,20 @@ passport.use(
     {
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL: "http://localhost:5000/auth/google/callback",
+      // callbackURL: "http://localhost:5000/auth/google/callback",
+      callbackURL: "http://localhost:5000/api/user/auth/google/callback",
     },
     (accessToken, refreshToken, profile, done) => {
       User.findOne({ googleId: profile.id }).then((existingUser) => {
         if (existingUser) {
           done(null, existingUser);
         } else {
-          new User({ googleId: profile.id })
+          new User({
+            googleId: profile.id,
+            email: profile.emails[0].value,
+            name: profile.displayName,
+            password: "google-auth",
+          })
             .save()
             .then((user) => done(null, user));
         }
