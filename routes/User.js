@@ -34,7 +34,14 @@ router
     "/auth/google",
     passport.authenticate("google", { scope: ["profile", "email"] })
   )
-  .get("/auth/google/callback", passport.authenticate("google"))
+  .get(
+    "/auth/google/callback",
+    passport.authenticate("google", { failureRedirect: "/login" }),
+    (req, res) => {
+      const token = req.user.token;
+      res.redirect(`http://localhost:3000/?token=${token}`);
+    }
+  )
   .get("/api/logout", (req, res) => {
     req.logout();
     res.send(req.user);
