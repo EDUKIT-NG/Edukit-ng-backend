@@ -9,10 +9,15 @@ import {
   resetPassword,
 } from "../controllers/User/resetPassword.js";
 import logout from "../controllers/User/logout.js";
-import { getAllUsers, getASingleUser } from "../controllers/User/getUser.js";
+import {
+  getAllUsers,
+  getASingleUser,
+  getUserProfile,
+} from "../controllers/User/getUser.js";
 import { deleteUser } from "../controllers/User/deleteUser.js";
 import { verifyToken } from "../middleware/VerifyToken.js";
 import { refreshToken } from "../utils/RefreshTokenHandler.js";
+import { protect } from "../middleware/profileMiddleware.js";
 // import { createProfileSchool } from "../controllers/User/SchoolProfile.js";
 // import createStudentProfile from "../controllers/User/studentProfile.js";
 
@@ -21,6 +26,7 @@ const router = Router();
 router
   .post("/register", registerUser)
   .post("/login", loginUser)
+  .get("/profile", protect, getUserProfile)
   .post("/verify-otp", verifyToken, verifyOtp)
   .post("/resend-otp", verifyToken, resendOtp)
   .post("/forgot-password", forgotPassword)
