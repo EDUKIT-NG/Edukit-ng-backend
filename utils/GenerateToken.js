@@ -11,6 +11,6 @@ export const generateAccessToken = (id) => {
 
 export const generateRefreshToken = (id) => {
   return jwt.sign({ id }, process.env.REFRESH_KEY, {
-    expiresIn: process.env.Refresh_TOKEN_EXPIRATION,
+    expiresIn: process.env.REFRESH_TOKEN_EXPIRATION,
   });
 };
