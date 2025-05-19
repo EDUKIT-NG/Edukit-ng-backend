@@ -1,5 +1,16 @@
 import expressAsyncHandler from "express-async-handler";
 import User from "../../models/User.model.js";
+import { sanitizeUser } from "../../utils/SanitizeUser.js";
+
+export const getUserProfile = expressAsyncHandler(async (req, res) => {
+  if (!req.user) {
+    return res.status(404).json({ message: "User not found." });
+  }
+
+  const user = sanitizeUser(req.user);
+
+  return res.status(200).json({ user });
+});
 
 export const getAllUsers = expressAsyncHandler(async (req, res) => {
   let users = await User.find({});
