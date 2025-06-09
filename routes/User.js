@@ -33,21 +33,7 @@ router
   .post("/reset-password", verifyToken, resetPassword)
   .get("/verify-email/:id", verifyEmail)
   .get("/", getAllUsers)
-  .get("/:id", getASingleUser)
-  .delete("/:id", deleteUser)
   .post("/logout", logout)
-  .get(
-    "/auth/google",
-    passport.authenticate("google", { scope: ["profile", "email"] })
-  )
-  .get(
-    "/auth/google/callback",
-    passport.authenticate("google", { failureRedirect: "/login" }),
-    (req, res) => {
-      const token = req.user.token;
-      res.redirect(`http://localhost:3000/?token=${token}`);
-    }
-  )
   .get("/api/logout", (req, res) => {
     req.logout();
     res.send(req.user);
@@ -55,7 +41,9 @@ router
   .get("/api/current_user", (req, res) => {
     res.send(req.user);
   })
-  .post("/api/refresh_token", refreshToken);
+  .post("/api/refresh_token", refreshToken)
+  .get("/:id", getASingleUser)
+  .delete("/:id", deleteUser);
 // .put("/create-school-profile/:id", createProfileSchool)
 // .put("/create-student-profile/:id", createStudentProfile);
 
