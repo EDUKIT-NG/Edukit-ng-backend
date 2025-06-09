@@ -1,5 +1,9 @@
 # Edukit NIgeria
 
+```bash
+edukit-ng-backend.up.railway.app
+```
+
 ## Description
 
 Edukit Nigeria is an educational platform designed to provide resources and tools for students and educators. It aims to enhance learning experiences through interactive content and community engagement.

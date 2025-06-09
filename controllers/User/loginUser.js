@@ -1,6 +1,4 @@
 import expressAsyncHandler from "express-async-handler";
-
-import { sanitizeUser } from "../../utils/SanitizeUser.js";
 import User from "../../models/User.model.js";
 import bcrypt from "bcrypt";
 import logInSchema from "../../Validation/User/loginValidation.js";
@@ -42,31 +40,6 @@ const loginUser = expressAsyncHandler(async (req, res) => {
         .status(400)
         .json({ message: "Invalid email or password. Please try again. " });
     }
-    // if (!existingUser.isVerified) {
-    //   await session.abortTransaction();
-    //   return res.status(400).json({ message: "Kindly verify your email" });
-    // }
-
-    // const secureInfo = sanitizeUser(existingUser);
-    // const token = generateAccessToken(secureInfo);
-    // const cookieExpirationDays = parseInt(process.env.COOKIE_EXPIRATION_DAYS);
-    // if (isNaN(cookieExpirationDays)) {
-    //   throw new Error("COOKIE_EXPIRATION_DAYS must be a valid number.");
-    // }
-
-    // // res.cookie("token", token, {
-    // //   sameSite: process.env.PRODUCTION === "true" ? "None" : "Lax",
-    // //   maxAge: cookieExpirationDays * 24 * 60 * 60 * 1000,
-    // //   httpOnly: true,
-    // //   secure: process.env.PRODUCTION === "true",
-    // // });
-    // // for development
-    // res.cookie("token", token, {
-    //   sameSite: "Lax",
-    //   secure: false,
-    //   httpOnly: true,
-    // });
-    // console.log("Set-Cookie:", res.getHeaders()["set-cookie"]);
 
     const access_token = generateAccessToken(existingUser._id);
     const refresh_token = generateRefreshToken(existingUser._id);

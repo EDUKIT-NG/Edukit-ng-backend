@@ -1,6 +1,5 @@
 import bcrypt from "bcrypt";
 import { sendMail } from "../../utils/Email.js";
-import { sanitizeUser } from "../../utils/SanitizeUser.js";
 import {
   generateAccessToken,
   generateRefreshToken,
@@ -52,17 +51,6 @@ export const registerUser = expressAsyncHandler(async (req, res, next) => {
 
     const access_token = generateAccessToken(savedUser._id);
     const refresh_token = generateRefreshToken(savedUser._id);
-    // const cookieExpirationDays = parseInt(process.env.COOKIE_EXPIRATION_DAYS);
-    // if (isNaN(cookieExpirationDays)) {
-    //   throw new Error("COOKIE_EXPIRATION_DAYS must be a valid number.");
-    // }
-    // // sends JWT token in the response cookies
-    // res.cookie("token", token, {
-    //   sameSite: process.env.PRODUCTION === "true" ? "None" : "Lax",
-    //   maxAge: cookieExpirationDays * 24 * 60 * 60 * 1000,
-    //   httpOnly: true,
-    //   secure: process.env.PRODUCTION === "true",
-    // });
 
     await session.commitTransaction();
 
