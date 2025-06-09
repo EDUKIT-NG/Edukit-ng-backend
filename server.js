@@ -5,7 +5,7 @@ import session from "express-session";
 import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
 import { authorizeRoles } from "./middleware/AuthorizeRole.js";
-import { errorHandler } from "./middleware/ResponseHandler.js";
+import { responseHandler } from "./middleware/ResponseHandler.js";
 import morgan from "morgan";
 import passport from "passport";
 import("./passport.js");
@@ -15,6 +15,7 @@ dotenv.config();
 import userRouter from "./routes/User.js";
 import adminRouter from "./routes/Admin.js";
 import errorHandling from "./middleware/errorHandling.js";
+import authRouter from "./routes/auth.js";
 
 const app = express();
 
@@ -114,6 +115,7 @@ app.use((req, res, next) => {
 
 app.options("*", cors());
 
+app.use("/auth", authRouter);
 app.use("/api/user", userRouter);
 app.use("/api/admin", adminRouter);
 
@@ -127,6 +129,7 @@ app.get("/protected", (req, res) => {
 });
 
 app.use(errorHandling);
+app.use(responseHandler);
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
