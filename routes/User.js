@@ -31,7 +31,6 @@ router
   .post("/resend-otp", verifyToken, resendOtp)
   .post("/forgot-password", forgotPassword)
   .post("/reset-password", verifyToken, resetPassword)
-  .get("/verify-email/:id", verifyEmail)
   .get("/", getAllUsers)
   .post("/logout", logout)
   .get("/api/logout", (req, res) => {
@@ -41,6 +40,7 @@ router
   .get("/api/current_user", (req, res) => {
     res.send(req.user);
   })
+  .get("/verify-email/:id", verifyEmail)
   .post("/api/refresh_token", refreshToken)
   .get("/:id", getASingleUser)
   .delete("/:id", deleteUser);

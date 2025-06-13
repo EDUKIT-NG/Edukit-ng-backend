@@ -3,10 +3,6 @@ import Joi from "joi";
 const RegisterSchema = Joi.object({
   name: Joi.string().required().messages({ "any.required": "Name required" }),
 
-  ContactPerson: Joi.string().min(3).messages({
-    "any.required": "Contact Person required.",
-  }),
-
   email: Joi.string()
     .required()
     .email({

@@ -7,11 +7,6 @@ const userSchema = new mongoose.Schema(
       required: true,
     },
 
-    ContactPerson: {
-      type: String,
-      unique: true,
-    },
-
     email: {
       type: String,
       required: true,
@@ -38,6 +33,8 @@ const userSchema = new mongoose.Schema(
     phoneNumber: {
       type: String,
     },
+
+    contactPerson: {type: String,},
 
     grade: {
       type: String,

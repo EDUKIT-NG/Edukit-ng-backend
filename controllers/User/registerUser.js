@@ -14,8 +14,7 @@ export const registerUser = expressAsyncHandler(async (req, res, next) => {
   session.startTransaction();
   try {
     const user = await RegisterSchema.validateAsync(req.body);
-    const { name, email, role, password, phoneNumber, address, ContactPerson } =
-      user;
+    const { name, email, role, password, phoneNumber, address } = user;
 
     const existingUser = await User.findOne({ email });
     if (existingUser) {
@@ -34,8 +33,7 @@ export const registerUser = expressAsyncHandler(async (req, res, next) => {
       password: hashedPassword,
       phoneNumber,
       address,
-      ContactPerson,
-      isVerified: false, // tracks email verification
+      isVerified: false,
     });
 
     const savedUser = await newUser.save();
@@ -49,8 +47,8 @@ export const registerUser = expressAsyncHandler(async (req, res, next) => {
           <p><a href=${process.env.ORIGIN}/verify-email/${savedUser._id} target='_blank'>Verify Email</a></p>`
     );
 
-    const access_token = generateAccessToken(savedUser._id);
-    const refresh_token = generateRefreshToken(savedUser._id);
+    const access_token = generateAccessToken(savedUser._id, savedUser.role);
+    const refresh_token = generateRefreshToken(savedUser._id, savedUser.role);
 
     await session.commitTransaction();
 
