@@ -1,64 +1,71 @@
 import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema(
-  {
-    name: {
-      type: String,
-      required: true,
-    },
+	{
+		name: {
+			type: String,
+			required: true,
+		},
 
-    email: {
-      type: String,
-      required: true,
-    },
+		email: {
+			type: String,
+			required: true,
+		},
 
-    password: {
-      type: String,
-      required: function () {
-        return !this.googleId; // Requires password for non-Google users
-      },
-    },
-    googleId: { type: String, unique: true, sparse: true },
+		password: {
+			type: String,
+			required: function () {
+				return !this.googleId; // Requires password for non-Google users
+			},
+		},
+		googleId: { type: String, unique: true, sparse: true },
 
-    role: {
-      type: String,
-      enum: ["student", "volunteer", "donor", "school", "admin", "sponsor"],
-    },
+		role: {
+			type: String,
+			enum: [
+				"student",
+				"volunteer",
+				"donor",
+				"school",
+				"admin",
+				"sponsor",
+			],
+		},
 
-    isVerified: {
-      type: Boolean,
-      default: false,
-    },
+		isVerified: {
+			type: Boolean,
+			default: false,
+		},
 
-    phoneNumber: {
-      type: String,
-    },
+		phoneNumber: {
+			type: String,
+		},
 
-    contactPerson: {type: String,},
+		contactPerson: { type: String },
 
-    grade: {
-      type: String,
-    },
+		grade: {
+			type: String,
+		},
 
-    studentSchool: {
-      type: String,
-    },
+		studentSchool: {
+			type: String,
+		},
 
-    address: {
-      type: String,
-    },
+		address: {
+			type: String,
+		},
 
-    noOfStudents: {
-      type: Number,
-    },
+		noOfStudents: {
+			type: Number,
+		},
 
-    googleId: {
-      type: String,
-    },
-  },
-  {
-    timestamps: true,
-  }
+		googleId: {
+			type: String,
+		},
+	},
+	{
+		timestamps: true,
+	}
 );
 
 const User = mongoose.model("User", userSchema);
